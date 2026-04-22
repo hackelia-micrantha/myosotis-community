@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Myotosis | Field-Operated AI, Bounded at the Device</title>
+    <meta
+      name="description"
+      content="Myotosis is a security-bounded architecture for field-operated AI tools on mobile devices, with local policy enforcement, explicit consent, and auditable execution."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="page-shell">
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span class="brand-copy">
+          <strong>Myotosis</strong>
+          <span>Field-operated AI systems</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#architecture">Architecture</a>
+        <a href="#safety">Safety Model</a>
+        <a href="#state">Current State</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="threat-model.html">Threat Model</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-headline">
+          <p class="eyebrow">Governed field AI systems</p>
+          <h1>
+            <span>Field-Operated AI,</span>
+            <span>Bounded at the Device</span>
+          </h1>
+        </div>
+
+        <div class="hero-copy">
+          <p class="lede">
+            Myotosis is a security-bounded architecture for field-operated AI
+            tools running on mobile devices. It brings device-local context into
+            AI workflows through explicit capability grants, local policy
+            enforcement, operator consent, and auditable execution.
+          </p>
+          <div class="cta-row">
+            <a class="button button-primary" href="whitepaper.html"
+              >Read the Whitepaper</a
+            >
+            <a
+              class="button button-secondary"
+              href="mailto:myotosis@micrantha.com?subject=Waitlist%20Request"
+              >Join the Waitlist</a
+            >
+          </div>
+          <ul class="signal-list" aria-label="Key properties">
+            <li>Local policy enforcement</li>
+            <li>Explicit consent where required</li>
+            <li>Fail-closed execution under uncertainty</li>
+          </ul>
+        </div>
+
+        <aside class="hero-panel" aria-label="System overview">
+          <div class="panel-header">
+            <span>System overview</span>
+            <span>Field execution model</span>
+          </div>
+          <div class="diagram-flow" aria-label="Request path">
+            <span>Agent request</span>
+            <span>Scoped coordination</span>
+            <span>Local decision</span>
+          </div>
+          <div class="diagram-lanes">
+            <span class="lane-label">Device-side controls</span>
+            <div class="diagram-core">
+              <strong>Policy Engine</strong>
+              <strong>Consent + Audit</strong>
+              <strong>Field Tools + Local Signals</strong>
+            </div>
+          </div>
+          <dl class="panel-metrics">
+            <div>
+              <dt>Authority</dt>
+              <dd>Device-local, policy-bounded</dd>
+            </div>
+            <div>
+              <dt>Failure posture</dt>
+              <dd>Deterministic, fail-closed</dd>
+            </div>
+            <div>
+              <dt>Trust model</dt>
+              <dd>Agents, devices, and tools are untrusted by default</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="section-grid section-band">
+        <div class="section-intro">
+          <p class="section-label">Problem</p>
+          <h2>Cloud-first AI breaks down in the field.</h2>
+        </div>
+        <div class="section-copy">
+          <p>
+            Field environments introduce conditions that cloud-centric AI
+            systems do not handle well: intermittent connectivity, ambiguous
+            network trust, physical proximity to sensitive data, and higher
+            consequences for misuse.
+          </p>
+          <p>
+            In these environments, the device cannot be treated as a thin
+            client and the cloud cannot be treated as the final authority.
+          </p>
+        </div>
+        <div class="card-grid">
+          <article class="feature-card">
+            <h3>Intermittent or absent connectivity</h3>
+            <p>
+              Field workflows need local continuity when the network is slow,
+              degraded, or unavailable.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Higher consequence environments</h3>
+            <p>
+              The cost of ambiguous authority, silent failure, or data leakage is
+              materially higher in regulated and operational settings.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Human approval cannot be decorative</h3>
+            <p>
+              Consent must be specific, bounded, and visible to the operator
+              when device-side actions touch sensitive data or actuation.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-grid" id="architecture">
+        <div class="section-intro">
+          <p class="section-label">Core shift</p>
+          <h2>Reverse the default trust model.</h2>
+        </div>
+        <div class="section-copy">
+          <p>
+            Myotosis treats the mobile device as a governed execution node
+            rather than a passive endpoint. Capabilities are bounded.
+            Invocation is explicit. Policy is enforced locally. The cloud
+            coordinates, but does not silently inherit authority over field-side
+            actions.
+          </p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span>01</span>
+            <h3>Resolve scope</h3>
+            <p>The control plane routes requests and defines bounded scope.</p>
+          </div>
+          <div class="timeline-item">
+            <span>02</span>
+            <h3>Evaluate locally</h3>
+            <p>
+              The device validates policy, consent, and capability constraints
+              before tool execution.
+            </p>
+          </div>
+          <div class="timeline-item">
+            <span>03</span>
+            <h3>Execute or deny</h3>
+            <p>
+              Actions either proceed within policy or fail closed with a visible,
+              attributable outcome.
+            </p>
+          </div>
+          <div class="timeline-item">
+            <span>04</span>
+            <h3>Record and sync intentionally</h3>
+            <p>
+              Audit is recorded as part of normal operation, and sync remains an
+              explicit, controlled action.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-grid section-band" id="safety">
+        <div class="section-intro">
+          <p class="section-label">Safety model</p>
+          <h2>Built for operational safety, not capability expansion.</h2>
+        </div>
+        <div class="section-copy">
+          <p>
+            The architecture is centered on risk containment. Devices, agents,
+            and tools are untrusted by default. Authority is established only
+            through scoped capability grants, cryptographic provenance, local
+            enforcement, and immutable audit trails.
+          </p>
+        </div>
+        <div class="rules-board">
+          <div class="rule-row">
+            <strong>The system enforces</strong>
+            <span>Local policy evaluation before execution</span>
+          </div>
+          <div class="rule-row">
+            <strong>The system does not allow</strong>
+            <span>Remote bypass of the policy engine</span>
+          </div>
+          <div class="rule-row">
+            <strong>The system contains</strong>
+            <span>Failure to the affected device and visible workflow state</span>
+          </div>
+          <div class="rule-row">
+            <strong>The system requires</strong>
+            <span>Explicit consent where policy or context demands it</span>
+          </div>
+          <div class="rule-row">
+            <strong>The system records</strong>
+            <span>Attributable audit events as part of normal operation</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-grid">
+        <div class="section-intro">
+          <p class="section-label">Field conditions</p>
+          <h2>Designed for real operating environments.</h2>
+        </div>
+        <div class="section-copy">
+          <p>
+            Myotosis is shaped around environments where connectivity is
+            unreliable, conditions are time-sensitive, and operator clarity
+            matters. The architecture is intended for settings where mobile
+            devices interact with sensitive data, physical processes, or
+            regulated workflows.
+          </p>
+        </div>
+        <div class="sector-grid">
+          <div class="sector-card">
+            <span>Healthcare</span>
+            <p>Bedside capture, clinical workflows, and attributable approval.</p>
+          </div>
+          <div class="sector-card">
+            <span>Transportation</span>
+            <p>Mobile coordination under inconsistent connectivity and varied trust zones.</p>
+          </div>
+          <div class="sector-card">
+            <span>Security</span>
+            <p>Bounded device actions where policy and operator visibility are mandatory.</p>
+          </div>
+          <div class="sector-card">
+            <span>Defense and field services</span>
+            <p>Operational environments where degraded conditions are expected, not exceptional.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-grid section-band" id="state">
+        <div class="section-intro">
+          <p class="section-label">Current state</p>
+          <h2>Design system first. Proof later.</h2>
+        </div>
+        <div class="section-copy">
+          <p>
+            Myotosis currently exists as an RFC-backed design system and
+            sandbox for governed agentic SDLC through Anthesis. The current work
+            defines architectural constraints, threat models, policy semantics,
+            audit requirements, distributed execution behavior, and consent
+            flows.
+          </p>
+          <p>
+            It does not claim production validation yet. The value here is
+            architectural rigor, not invented proof.
+          </p>
+        </div>
+        <div class="status-grid">
+          <div class="status-card">
+            <span>Available now</span>
+            <p>RFC set, reference architecture, threat model, whitepaper summary.</p>
+          </div>
+          <div class="status-card">
+            <span>Not claimed</span>
+            <p>Production deployment, runtime performance, or efficacy outcomes.</p>
+          </div>
+          <div class="status-card">
+            <span>Next step</span>
+            <p>Use the published design to evaluate fit, constraints, and interest.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-grid final-cta" id="waitlist">
+        <div class="section-intro">
+          <p class="section-label">Next action</p>
+          <h2>Read the design before you trust the system.</h2>
+        </div>
+        <div class="section-copy">
+          <p>
+            If you are working on AI systems that need device-local context,
+            governed execution, and clear trust boundaries, start with the
+            whitepaper summary and RFC set.
+          </p>
+          <div class="cta-row">
+            <a class="button button-primary" href="whitepaper.html"
+              >Read the Whitepaper</a
+            >
+            <a
+              class="button button-secondary"
+              href="mailto:myotosis@micrantha.com?subject=Waitlist%20Request"
+              >Join the Waitlist</a
+            >
+          </div>
+          <div class="contact-line">
+            <p>
+              Contact or waitlist requests:
+              <a href="mailto:myotosis@micrantha.com?subject=Myotosis%20Inquiry"
+                >myotosis@micrantha.com</a
+              >
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <p class="footer-kicker">Micrantha project</p>
+        <strong class="footer-title">Myotosis</strong>
+        <p>
+          A security-bounded architecture for field-operated AI tools on mobile
+          devices.
+        </p>
+        <p class="footer-meta">
+          Built within the Micrantha research and systems portfolio.
+        </p>
+        <p class="footer-note">
+          Legal and privacy links are not published yet. For waitlist, policy,
+          or access questions, use the contact address below.
+        </p>
+      </div>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <span>Explore</span>
+          <nav aria-label="Footer">
+            <a href="whitepaper.html">Whitepaper</a>
+            <a href="threat-model.html">Threat Model</a>
+            <a href="https://github.com/hackelia-micrantha/mobuild">Repository</a>
+          </nav>
+        </div>
+        <div class="footer-column">
+          <span>Contact</span>
+          <div class="footer-links">
+            <a href="mailto:myotosis@micrantha.com?subject=Myotosis%20Inquiry"
+              >myotosis@micrantha.com</a
+            >
+            <a href="mailto:myotosis@micrantha.com?subject=Waitlist%20Request"
+              >Join the waitlist</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

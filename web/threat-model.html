@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Myotosis | Threat Model Summary</title>
+    <meta
+      name="description"
+      content="A public summary of the Myotosis threat model covering trust boundaries, new threats in federation, and the governing security invariants."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="page-shell page-shell-paper">
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span class="brand-copy">
+          <strong>Myotosis</strong>
+          <span>Threat model summary</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="#boundaries">Trust Boundaries</a>
+        <a href="#threats">Threats</a>
+        <a href="#invariants">Invariants</a>
+      </nav>
+    </header>
+
+    <main class="paper-layout">
+      <section class="paper-hero">
+        <p class="eyebrow">Public threat summary</p>
+        <h1>Myotosis Threat Model</h1>
+        <p class="lede">
+          This page summarizes the governing threat model for Myotosis. It is
+          derived from the RFC set and focuses on trust boundaries, threat
+          expansion in federated execution, and the security invariants the
+          architecture is intended to preserve.
+        </p>
+      </section>
+
+      <section class="paper-section" id="boundaries">
+        <h2>Trust boundaries</h2>
+        <p>
+          Myotosis treats all major actors as untrusted by default: agents,
+          devices, tools, and central coordination systems. Trust is not
+          inherited from placement in the architecture. It is established only
+          through explicit scope, local policy enforcement, cryptographic
+          provenance, and attributable audit.
+        </p>
+        <div class="paper-grid">
+          <article class="paper-card">
+            <h3>Agent → Registry</h3>
+            <p>
+              Requests may be routed and scoped here, but registry participation
+              does not imply authority over device-side execution.
+            </p>
+          </article>
+          <article class="paper-card">
+            <h3>Registry → Device</h3>
+            <p>
+              Resolution and authorization metadata are advisory until the
+              device validates policy locally.
+            </p>
+          </article>
+          <article class="paper-card">
+            <h3>Device → Policy</h3>
+            <p>
+              Local policy remains the final decision point for execution,
+              consent, and capability scope.
+            </p>
+          </article>
+          <article class="paper-card">
+            <h3>Policy → Tool</h3>
+            <p>
+              Tool access must remain narrow, explicit, versioned, and auditable.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="paper-section" id="threats">
+        <h2>Primary threats</h2>
+        <p>
+          Federation and field execution introduce additional risk beyond a
+          single-device or cloud-first model. The threat model expands to cover
+          coordination, distribution, and operator-legibility failures.
+        </p>
+        <ul class="paper-list">
+          <li>
+            Cross-device capability escalation, where coordination could be used
+            to expand authority across endpoints without explicit approval.
+          </li>
+          <li>
+            Registry poisoning, where compromised or misleading coordination
+            metadata attempts to influence device-side behavior.
+          </li>
+          <li>
+            Fleet policy overreach, where ownership or organizational context is
+            used to mask unsafe or overly broad authority.
+          </li>
+          <li>
+            Hidden aggregation or ambiguous execution scope, where operators are
+            not clearly informed which devices acted and under what conditions.
+          </li>
+          <li>
+            Supply-chain and tool-verification failures, where unsigned or
+            mutable tools could bypass execution guarantees.
+          </li>
+        </ul>
+      </section>
+
+      <section class="paper-section">
+        <h2>Mitigation posture</h2>
+        <p>
+          The architecture responds to these threats with signed manifests,
+          device-side enforcement, hardware-backed identity, explicit consent
+          triggers, immutable audit behavior, and fail-closed execution rules.
+        </p>
+        <p>
+          Central systems may coordinate, but they do not silently collapse the
+          trust boundary between request and execution.
+        </p>
+      </section>
+
+      <section class="paper-section" id="invariants">
+        <h2>Security invariants</h2>
+        <div class="rules-board">
+          <div class="rule-row">
+            <strong>No remote authority</strong>
+            <span>Device-local policy remains the final authority for execution.</span>
+          </div>
+          <div class="rule-row">
+            <strong>No implicit trust from federation</strong>
+            <span>Multi-device coordination does not expand authority by default.</span>
+          </div>
+          <div class="rule-row">
+            <strong>No hidden execution scope</strong>
+            <span>Operators must be able to understand what executed, where, and why.</span>
+          </div>
+          <div class="rule-row">
+            <strong>No silent degradation</strong>
+            <span>Ambiguity, timeout, or audit failure resolve into bounded failure states.</span>
+          </div>
+          <div class="rule-row">
+            <strong>No mutable trust surface</strong>
+            <span>Tools and policies require explicit definition, verification, and review.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="paper-section">
+        <h2>Source RFCs</h2>
+        <p>
+          This summary is primarily derived from RFC-002, RFC-010, RFC-011,
+          RFC-012, RFC-013, and RFC-014, with supporting constraints from the
+          reference architecture and whitepaper derivation rules.
+        </p>
+        <div class="cta-row">
+          <a class="button button-primary" href="whitepaper.html">Read the Whitepaper</a>
+          <a
+            class="button button-secondary"
+            href="https://github.com/hackelia-micrantha/myotosis/tree/main/rfcs"
+            >Browse RFCs</a
+          >
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

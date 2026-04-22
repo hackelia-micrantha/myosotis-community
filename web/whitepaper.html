@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Myotosis | Whitepaper Summary</title>
+    <meta
+      name="description"
+      content="A limited public summary of the Myotosis RFC set covering field-operated AI, trust boundaries, policy enforcement, distributed execution, and consent."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="page-shell page-shell-paper">
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">M</span>
+        <span class="brand-copy">
+          <strong>Myotosis</strong>
+          <span>Whitepaper summary</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="#summary">Summary</a>
+        <a href="#principles">Principles</a>
+        <a href="#rfcs">RFC Sources</a>
+        <a href="threat-model.html">Threat Model</a>
+      </nav>
+    </header>
+
+    <main class="paper-layout">
+      <section class="paper-hero" id="summary">
+        <p class="eyebrow">Limited public summary</p>
+        <h1>Myotosis Whitepaper Summary</h1>
+        <p class="lede">
+          This document is a constrained summary of the Myotosis RFC set. It
+          describes the architecture and design intent without making production,
+          performance, or efficacy claims.
+        </p>
+        <p class="paper-note">
+          The public framing follows the RFC claim rules: design claims,
+          constraint claims, and risk-bounding claims only.
+        </p>
+      </section>
+
+      <section class="paper-section">
+        <h2>What Myotosis is</h2>
+        <p>
+          Myotosis is a security-bounded architecture for field-operated AI
+          tools on mobile devices. It defines how a mobile device can serve as a
+          governed execution node in an AI system while preserving local policy
+          enforcement, explicit invocation, attributable audit, and meaningful
+          human consent.
+        </p>
+        <p>
+          The architecture is intended for environments where field conditions,
+          sensitive context, and operational safety matter more than maximizing
+          autonomy or cloud-side convenience.
+        </p>
+      </section>
+
+      <section class="paper-section" id="principles">
+        <h2>Core design principles</h2>
+        <div class="paper-grid">
+          <article class="paper-card">
+            <h3>Field-operated over mobile-first</h3>
+            <p>
+              The device is treated as field equipment operating in a high-risk,
+              low-trust environment rather than a generic handset.
+            </p>
+          </article>
+          <article class="paper-card">
+            <h3>Bounded tools over autonomous agents</h3>
+            <p>
+              Each tool action is narrow, explicit, and policy-scoped. No free-form
+              or inferred authority is assumed.
+            </p>
+          </article>
+          <article class="paper-card">
+            <h3>Operational safety over capability expansion</h3>
+            <p>
+              The system is designed to contain failure, preserve operator clarity,
+              and avoid hidden authority.
+            </p>
+          </article>
+          <article class="paper-card">
+            <h3>Trust boundaries over convenience</h3>
+            <p>
+              Devices, agents, tools, and registries are untrusted by default.
+              Trust is established through policy, provenance, and audit.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="paper-section">
+        <h2>Architecture in brief</h2>
+        <p>
+          Myotosis uses a two-plane model. The control plane handles discovery,
+          identity, routing metadata, and scoped authorization. The data plane
+          remains on or near the device, where policy evaluation, consent, audit,
+          and tool execution occur.
+        </p>
+        <p>
+          This separation is intended to prevent a central service from becoming
+          a hidden execution proxy or a silent authority over field-side actions.
+        </p>
+      </section>
+
+      <section class="paper-section">
+        <h2>Local authority and explicit invocation</h2>
+        <p>
+          A request from an agent does not imply permission to execute. Device-side
+          policy remains the final authority. Tokens and routing metadata may
+          define scope, but they do not override local enforcement.
+        </p>
+        <p>
+          Capability execution is explicit and constrained. New tools, new
+          invocation paths, and new capabilities require deliberate definition and
+          review rather than runtime expansion.
+        </p>
+      </section>
+
+      <section class="paper-section">
+        <h2>Consent and operator visibility</h2>
+        <p>
+          Human consent is treated as a security control, not a UX decoration.
+          Where required by policy or context, approval must be specific,
+          bounded, understandable, and attributable. Silence, timeout, or
+          ambiguity do not imply approval.
+        </p>
+        <p>
+          Multi-device execution must remain legible to the operator. The system
+          should not collapse distributed behavior into a single, ambiguous
+          result.
+        </p>
+      </section>
+
+      <section class="paper-section">
+        <h2>Failure model</h2>
+        <p>
+          Myotosis is designed around deterministic, fail-closed behavior.
+          Policy validation failure denies execution. Capability expiry hard-fails.
+          Audit write failure aborts action. Network loss transitions the device
+          into local-only behavior rather than silently degrading authority.
+        </p>
+        <p>
+          The goal is not uninterrupted autonomy. The goal is bounded behavior
+          under adverse conditions.
+        </p>
+      </section>
+
+      <section class="paper-section">
+        <h2>Current status</h2>
+        <p>
+          Myotosis currently exists as a design and governance effort backed by
+          RFCs, not as a production-validated product. The present value is the
+          coherence of the architectural model, security invariants, and external
+          claim discipline.
+        </p>
+      </section>
+
+      <section class="paper-section" id="rfcs">
+        <h2>RFC sources</h2>
+        <ul class="paper-list">
+          <li>
+            RFC-001 establishes the decision to use security-constrained mobile
+            MCP servers for field-operated AI tools.
+          </li>
+          <li>
+            RFC-002 through RFC-004 define the threat, policy, audit, and
+            compliance foundations.
+          </li>
+          <li>
+            RFC-005 through RFC-007 define the reference architecture, failure
+            behavior, and sync model.
+          </li>
+          <li>
+            RFC-008 governs how public messaging must be derived from the RFC
+            set without marketing overreach.
+          </li>
+          <li>
+            RFC-009 through RFC-014 define distributed execution, federation,
+            authorization, and consent semantics.
+          </li>
+        </ul>
+        <div class="cta-row">
+          <a class="button button-primary" href="index.html">Back to Landing Page</a>
+          <a
+            class="button button-secondary"
+            href="https://github.com/hackelia-micrantha/myotosis/tree/main/rfcs"
+            >Browse RFCs</a
+          >
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
