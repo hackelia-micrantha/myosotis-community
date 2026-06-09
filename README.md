@@ -1,4 +1,4 @@
-# Project: Myotosis
+# Project: Myosotis
 
 > Field operated devices
 
@@ -7,4 +7,4 @@ A collection of tools to turn mobile devices into dynamic MCP servers - providin
 
 ## Contact
 
-- Waitlist and contact email: `myotosis@micrantha.com`
+- Waitlist and contact email: `myosotis@micrantha.com`
