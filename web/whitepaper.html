@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Myotosis | Whitepaper Summary</title>
+    <title>Myosotis | Design Summary</title>
     <meta
       name="description"
-      content="A limited public summary of the Myotosis RFC set covering field-operated AI, trust boundaries, policy enforcement, distributed execution, and consent."
+      content="A limited public design summary of the Myosotis RFC set covering field-operated AI, trust boundaries, policy enforcement, distributed execution, and consent."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,8 +22,8 @@
       <a class="brand" href="index.html">
         <span class="brand-mark">M</span>
         <span class="brand-copy">
-          <strong>Myotosis</strong>
-          <span>Whitepaper summary</span>
+          <strong>Myosotis</strong>
+          <span>Design summary</span>
         </span>
       </a>
       <nav class="site-nav" aria-label="Primary">
@@ -37,30 +37,30 @@
 
     <main class="paper-layout">
       <section class="paper-hero" id="summary">
-        <p class="eyebrow">Limited public summary</p>
-        <h1>Myotosis Whitepaper Summary</h1>
+        <p class="eyebrow">Limited public design summary</p>
+        <h1>Myosotis Design Summary</h1>
         <p class="lede">
-          This document is a constrained summary of the Myotosis RFC set. It
+          This document is a constrained summary of the Myosotis RFC set. It
           describes the architecture and design intent without making production,
           performance, or efficacy claims.
         </p>
         <p class="paper-note">
-          The public framing follows the RFC claim rules: design claims,
+          The public framing follows explicit claim discipline: design claims,
           constraint claims, and risk-bounding claims only.
         </p>
       </section>
 
       <section class="paper-section">
-        <h2>What Myotosis is</h2>
+        <h2>What Myosotis is</h2>
         <p>
-          Myotosis is a security-bounded architecture for field-operated AI
-          tools on mobile devices. It defines how a mobile device can serve as a
+          Myosotis is a security-bounded architecture for field-operated AI tools
+          on mobile devices. It defines how a mobile device can serve as a
           governed execution node in an AI system while preserving local policy
           enforcement, explicit invocation, attributable audit, and meaningful
           human consent.
         </p>
         <p>
-          The architecture is intended for environments where field conditions,
+          The design is intended for environments where field conditions,
           sensitive context, and operational safety matter more than maximizing
           autonomy or cloud-side convenience.
         </p>
@@ -79,15 +79,15 @@
           <article class="paper-card">
             <h3>Bounded tools over autonomous agents</h3>
             <p>
-              Each tool action is narrow, explicit, and policy-scoped. No free-form
-              or inferred authority is assumed.
+              Each tool action is narrow, explicit, and policy-scoped. No
+              free-form or inferred authority is assumed.
             </p>
           </article>
           <article class="paper-card">
             <h3>Operational safety over capability expansion</h3>
             <p>
-              The system is designed to contain failure, preserve operator clarity,
-              and avoid hidden authority.
+              The system is designed to contain failure, preserve operator
+              clarity, and avoid hidden authority.
             </p>
           </article>
           <article class="paper-card">
@@ -103,7 +103,7 @@
       <section class="paper-section">
         <h2>Architecture in brief</h2>
         <p>
-          Myotosis uses a two-plane model. The control plane handles discovery,
+          Myosotis uses a two-plane model. The control plane handles discovery,
           identity, routing metadata, and scoped authorization. The data plane
           remains on or near the device, where policy evaluation, consent, audit,
           and tool execution occur.
@@ -117,9 +117,9 @@
       <section class="paper-section">
         <h2>Local authority and explicit invocation</h2>
         <p>
-          A request from an agent does not imply permission to execute. Device-side
-          policy remains the final authority. Tokens and routing metadata may
-          define scope, but they do not override local enforcement.
+          A request from an agent does not imply permission to execute.
+          Device-side policy remains the final authority. Tokens and routing
+          metadata may define scope, but they do not override local enforcement.
         </p>
         <p>
           Capability execution is explicit and constrained. New tools, new
@@ -146,8 +146,8 @@
       <section class="paper-section">
         <h2>Failure model</h2>
         <p>
-          Myotosis is designed around deterministic, fail-closed behavior.
-          Policy validation failure denies execution. Capability expiry hard-fails.
+          Myosotis is designed around deterministic, fail-closed behavior. Policy
+          validation failure denies execution. Capability expiry hard-fails.
           Audit write failure aborts action. Network loss transitions the device
           into local-only behavior rather than silently degrading authority.
         </p>
@@ -160,7 +160,7 @@
       <section class="paper-section">
         <h2>Current status</h2>
         <p>
-          Myotosis currently exists as a design and governance effort backed by
+          Myosotis currently exists as a design and governance effort backed by
           RFCs, not as a production-validated product. The present value is the
           coherence of the architectural model, security invariants, and external
           claim discipline.
@@ -192,11 +192,11 @@
           </li>
         </ul>
         <div class="cta-row">
-          <a class="button button-primary" href="index.html">Back to Landing Page</a>
+          <a class="button button-primary" href="index.html">Back to Overview</a>
           <a
             class="button button-secondary"
-            href="https://github.com/hackelia-micrantha/myotosis/tree/main/rfcs"
-            >Browse RFCs</a
+            href="https://github.com/hackelia-micrantha/myosotis-community"
+            >View Repository</a
           >
         </div>
       </section>
