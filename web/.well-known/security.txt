@@ -1,0 +1,5 @@
+Contact: mailto:security.myosotis@micrantha.com
+Expires: 2027-07-27T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://myosotis.micrantha.com/.well-known/security.txt
+Policy: https://github.com/hackelia-micrantha/myosotis-community/security/policy
