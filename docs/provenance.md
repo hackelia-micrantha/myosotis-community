@@ -36,15 +36,18 @@ After a canonical review, an authorized reviewer supplies only approved metadata
 nix develop --command python3 scripts/update_provenance.py \
   --source-revision <40-char-sha> \
   --reviewed-at YYYY-MM-DD \
-  --source-status RFC-003=Draft
+  --source-status RFC-003=Draft \
+  --page-reviewed index.html \
+  --page-reviewed whitepaper.html
 ```
 
 The updater:
 
 1. accepts only a commit SHA, review date, and statuses for RFC IDs already approved in the public source set;
-2. updates the site-wide manifest, page provenance metadata, and ledger review date;
-3. never reads the private repository;
-4. refuses to introduce a new RFC ID implicitly.
+2. updates the site-wide source revision and only the pages explicitly named with `--page-reviewed`;
+3. updates a claim review date only when all of that claim's public surfaces were explicitly reviewed;
+4. never reads the private repository;
+5. refuses to introduce a new RFC ID implicitly.
 
 Adding/removing claims, adding a new RFC source, changing evidence strength, or publishing clinical/deployment evidence remains a reviewed source change, not a synchronization operation.
 
@@ -52,6 +55,6 @@ Adding/removing claims, adding a new RFC source, changing evidence strength, or 
 
 Each page embeds the reviewed source SHA and review date. CI requires those values to match its entry in `provenance.json`.
 
-Therefore, updating the approved source revision without reviewing the pages makes the site fail validation until page metadata is updated intentionally. Claim IDs and confidence are checked in the same gate.
+Therefore, updating the approved source revision without explicitly passing each affected page via `--page-reviewed` makes the site fail validation until that page is reviewed intentionally. Claim IDs and confidence are checked in the same gate.
 
 The deployment smoke also verifies that the provenance and claims JSON are actually published with the site.
