@@ -79,17 +79,9 @@ Security-sensitive changes should state trust-boundary effects, failure behavior
 
 ## Licensing and contributor sign-off
 
-Repository licensing is defined in `LICENSING.md`. First-party public material is Apache-2.0 unless explicitly marked otherwise.
+Repository licensing is defined in `LICENSING.md`. Current first-party public material is Apache-2.0 unless explicitly marked otherwise. Future explicitly approved SDK/reference implementation source defaults to MPL-2.0 unless an existing reviewed source license applies.
 
-No CLA is required.
-
-External contributors must use a DCO-style sign-off on contribution commits:
-
-```text
-Signed-off-by: Your Name <you@example.com>
-```
-
-Use `git commit -s` to add it. The sign-off certifies that you created the contribution or otherwise have the right to submit it under the applicable license.
+No CLA or DCO sign-off is currently required. By intentionally submitting a contribution for inclusion, you represent that you have the right to submit the material and agree that accepted material may be distributed under the applicable outbound license for the target artifact class.
 
 ## Pull requests
 
