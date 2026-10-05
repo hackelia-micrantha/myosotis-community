@@ -18,6 +18,7 @@ Run:
 nix flake check
 nix develop --command python3 scripts/validate_site.py
 nix develop --command python3 scripts/validate_provenance.py
+nix develop --command python3 scripts/validate_governance.py
 nix develop --command python3 scripts/test_provenance_contract.py
 nix develop --command sh -ceu 'for file in web/*.html; do tidy -q -errors --show-warnings no "$file" >/dev/null; done'
 nix develop --command lychee --no-progress --max-retries 3 --accept 200,204,206,429 'web/**/*.html' 'README.md' 'docs/**/*.md'
@@ -49,7 +50,9 @@ CI also runs Gitleaks against repository history and validates:
 - exact page-to-manifest source revision/review metadata;
 - complete section-to-claim bindings and evidence-confidence agreement;
 - public RFC ID/status integrity and evidence-level restrictions;
-- evidence-registry referential integrity, evidence/source revision alignment, and review chronology.
+- evidence-registry referential integrity, evidence/source revision alignment, and review chronology;
+- required contribution/licensing/governance artifacts and issue/PR review fields;
+- fail-closed reserved top-level protocol/SDK/schema/conformance surfaces unless an explicit boundary decision changes the policy.
 
 The deployed header policy is intentionally strict because the site has no scripts or remote font dependency. HSTS is scoped to the Myosotis host only; it does not set `includeSubDomains` or request preload.
 
