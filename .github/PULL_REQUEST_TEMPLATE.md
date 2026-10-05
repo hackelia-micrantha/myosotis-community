@@ -37,7 +37,7 @@ Evidence confidence affected:
 
 - [ ] I have the right to submit all material in this change under the applicable repository license.
 - [ ] Third-party, copied/adapted, generated/AI-assisted, employer/customer, dataset/model/media provenance is disclosed above when applicable.
-- [ ] External contributor commits include the required DCO-style `Signed-off-by:` line.
+- [ ] I have the right to submit the material under the applicable outbound license.
 
 ## Validation
 
