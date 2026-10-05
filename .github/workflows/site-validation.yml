@@ -65,7 +65,7 @@ jobs:
       - name: Check links
         run: >-
           nix develop -L --no-write-lock-file --command
-          lychee --no-progress --exclude-mail --max-retries 3
+          lychee --no-progress --max-retries 3
           --accept 200,204,206,429
           'web/**/*.html' 'README.md' 'docs/**/*.md'
 
