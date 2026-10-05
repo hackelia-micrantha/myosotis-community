@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
 import re
 import sys
 from datetime import datetime, timezone
@@ -20,6 +21,39 @@ errors: list[str] = []
 
 def fail(message: str) -> None:
     errors.append(message)
+
+
+
+def hex_rgb(value: str) -> tuple[int, int, int]:
+    value = value.lstrip("#")
+    if len(value) == 3:
+        value = "".join(ch * 2 for ch in value)
+    if len(value) != 6:
+        raise ValueError(value)
+    return tuple(int(value[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def luminance(value: str) -> float:
+    channels = []
+    for channel in hex_rgb(value):
+        normalized = channel / 255
+        channels.append(
+            normalized / 12.92
+            if normalized <= 0.04045
+            else ((normalized + 0.055) / 1.055) ** 2.4
+        )
+    red, green, blue = channels
+    return 0.2126 * red + 0.7152 * green + 0.0722 * blue
+
+
+def contrast_ratio(foreground: str, background: str) -> float:
+    first, second = sorted((luminance(foreground), luminance(background)), reverse=True)
+    return (first + 0.05) / (second + 0.05)
+
+
+def css_variable(css: str, name: str) -> str | None:
+    match = re.search(rf"{re.escape(name)}\s*:\s*(#[0-9a-fA-F]{{3,6}})\s*;", css)
+    return match.group(1) if match else None
 
 
 def parse_page(path: Path):
@@ -138,6 +172,51 @@ for required in (
 ):
     if required not in css:
         fail(f"{css_path.relative_to(ROOT)} missing required accessibility contract: {required}")
+
+
+contrast_pairs = (
+    ("--phyllotaxis-color-text", "--phyllotaxis-color-canvas", 4.5),
+    ("--phyllotaxis-color-text-muted", "--phyllotaxis-color-canvas", 4.5),
+    ("--phyllotaxis-color-link", "--phyllotaxis-color-canvas", 4.5),
+    ("--phyllotaxis-color-link-visited", "--phyllotaxis-color-canvas", 4.5),
+    ("--phyllotaxis-color-text", "--phyllotaxis-color-surface", 4.5),
+    ("--phyllotaxis-color-text-muted", "--phyllotaxis-color-surface", 4.5),
+)
+for foreground_name, background_name, minimum in contrast_pairs:
+    foreground = css_variable(css, foreground_name)
+    background = css_variable(css, background_name)
+    if foreground is None or background is None:
+        fail(f"missing contrast token {foreground_name} or {background_name}")
+        continue
+    ratio = contrast_ratio(foreground, background)
+    if ratio < minimum:
+        fail(
+            f"contrast {foreground_name} on {background_name} is {ratio:.2f}:1; "
+            f"requires at least {minimum:.1f}:1"
+        )
+
+wrangler_text = (ROOT / "wrangler.jsonc").read_text(encoding="utf-8")
+try:
+    wrangler = json.loads(wrangler_text)
+except json.JSONDecodeError as error:
+    fail(f"wrangler.jsonc must remain parseable by the current JSON-only config: {error}")
+else:
+    if wrangler.get("name") != "myosotis-community":
+        fail("wrangler.jsonc must retain the myosotis-community worker name")
+    if wrangler.get("assets", {}).get("directory") != "./web":
+        fail("wrangler.jsonc must serve ./web as the static asset directory")
+
+workflow_path = ROOT / ".github" / "workflows" / "site-validation.yml"
+workflow = workflow_path.read_text(encoding="utf-8")
+if not re.search(r"(?m)^permissions:\s*\n\s+contents:\s+read\s*$", workflow):
+    fail("site-validation workflow must default to contents: read")
+for line in workflow.splitlines():
+    stripped = line.strip()
+    if not stripped.startswith("uses:"):
+        continue
+    action = stripped.split(":", 1)[1].strip()
+    if not re.search(r"@[0-9a-f]{40}(?:\s+#.*)?$", action):
+        fail(f"third-party action is not pinned to an immutable SHA: {action}")
 
 headers_path = WEB / "_headers"
 headers = headers_path.read_text(encoding="utf-8")
