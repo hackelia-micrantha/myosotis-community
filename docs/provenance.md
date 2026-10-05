@@ -4,7 +4,7 @@ Myosotis publishes a deliberately small, machine-readable projection of canonica
 
 The public files are:
 
-- `web/provenance.json` — reviewed source revision, RFC IDs/statuses, page review dates, and page claim IDs;
+- `web/provenance.json` — reviewed source revision, RFC IDs/statuses, page review dates, page claim IDs, and bounded public evidence records;
 - `web/claims.json` — approved public claim groups, claim type, evidence confidence, source IDs, limitations, and public surfaces;
 - `web/provenance.schema.json` and `web/claims.schema.json` — JSON Schema contracts for those files.
 
@@ -24,7 +24,7 @@ The ledger separates:
 - claim `type`: `design`, `constraint`, `risk-bounding`, `conformance`, `deployment`, or `clinical`;
 - evidence `confidence`: `design`, `conformance`, `deployment`, or `clinical`.
 
-A conformance/deployment/clinical claim requires explicit evidence metadata. Clinical confidence additionally requires a governed clinical-evidence record; no current public claim has clinical confidence.
+A conformance/deployment/clinical claim requires explicit evidence metadata. Evidence references must resolve to the public evidence registry, carry a level at least as strong as the claim confidence, match the reviewed source revision, and be reviewed no later than the claim. Clinical confidence additionally requires a governed clinical-evidence record; no current public claim has clinical confidence.
 
 ## Source synchronization
 
