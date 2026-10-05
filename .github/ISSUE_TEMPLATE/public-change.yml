@@ -1,0 +1,65 @@
+name: Public change proposal
+description: Propose a website, documentation, accessibility, diagram, example, or community-process change
+title: "public: "
+labels: []
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome
+      description: What observable public result should change?
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Contribution category
+      options:
+        - Website / accessibility / UX
+        - Documentation / copy
+        - Public diagram / synthetic example
+        - Public threat/design summary
+        - Community / governance / validation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenance and source
+      description: Identify source material, canonical revision if applicable, and any copied/adapted/generated/third-party material.
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Highest evidence confidence affected
+      options:
+        - None
+        - Design
+        - Conformance
+        - Deployment
+        - Clinical
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy, healthcare, and security impact
+      description: State whether synthetic data is used and whether any private, patient, production, or exploit-sensitive material is involved.
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility impact
+      description: State public compatibility/versioning impact or "None".
+    validations:
+      required: true
+  - type: checkboxes
+    id: authority
+    attributes:
+      label: Authority boundary
+      options:
+        - label: I understand this public issue/PR cannot create a normative Myosotis protocol or SDK requirement.
+          required: true
