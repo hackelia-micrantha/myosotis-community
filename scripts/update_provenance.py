@@ -26,6 +26,17 @@ parser.add_argument(
     metavar="RFC-NNN=STATUS",
     help="Update an existing public RFC status; repeat as needed.",
 )
+parser.add_argument(
+    "--page-reviewed",
+    action="append",
+    default=[],
+    choices=PAGES,
+    help=(
+        "Explicitly mark one public page reviewed against this source revision. "
+        "Repeat for every page actually reviewed. Unreviewed pages intentionally "
+        "remain stale and fail CI."
+    ),
+)
 args = parser.parse_args()
 
 if not re.fullmatch(r"[0-9a-f]{40}", args.source_revision):
@@ -55,25 +66,16 @@ for assignment in args.source_status:
         raise SystemExit(f"unsupported RFC status: {status}")
     known_sources[source_id]["status"] = status
 
+reviewed_pages = set(args.page_reviewed)
 provenance["sourceRevision"] = args.source_revision
 provenance["reviewedAt"] = args.reviewed_at
-for page in provenance["pages"]:
-    page["sourceRevision"] = args.source_revision
-    page["reviewedAt"] = args.reviewed_at
 
-for claim in claims["claims"]:
-    claim["reviewedAt"] = args.reviewed_at
+page_entries = {page["path"]: page for page in provenance["pages"]}
+for page_name in reviewed_pages:
+    page_entry = page_entries[page_name]
+    page_entry["sourceRevision"] = args.source_revision
+    page_entry["reviewedAt"] = args.reviewed_at
 
-provenance_path.write_text(
-    json.dumps(provenance, indent=2, sort_keys=False) + "\n",
-    encoding="utf-8",
-)
-claims_path.write_text(
-    json.dumps(claims, indent=2, sort_keys=False) + "\n",
-    encoding="utf-8",
-)
-
-for page_name in PAGES:
     path = WEB / page_name
     text = path.read_text(encoding="utf-8")
     text, revision_count = re.subn(
@@ -90,7 +92,27 @@ for page_name in PAGES:
         raise SystemExit(f"{page_name}: expected one provenance meta pair")
     path.write_text(text, encoding="utf-8")
 
+for claim in claims["claims"]:
+    surfaces = set(claim["publicSurfaces"])
+    if surfaces and surfaces.issubset(reviewed_pages):
+        claim["reviewedAt"] = args.reviewed_at
+
+provenance_path.write_text(
+    json.dumps(provenance, indent=2, sort_keys=False) + "\n",
+    encoding="utf-8",
+)
+claims_path.write_text(
+    json.dumps(claims, indent=2, sort_keys=False) + "\n",
+    encoding="utf-8",
+)
+
+unreviewed = sorted(set(PAGES) - reviewed_pages)
 print(
     "updated approved public provenance metadata; review the diff and run "
     "scripts/validate_site.py before publication"
 )
+if unreviewed:
+    print(
+        "pages intentionally left stale until explicitly reviewed: "
+        + ", ".join(unreviewed)
+    )
