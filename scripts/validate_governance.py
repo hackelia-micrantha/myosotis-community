@@ -29,6 +29,12 @@ for relative in required_files:
     if not (ROOT / relative).is_file():
         fail(f"missing governance artifact: {relative}")
 
+if errors:
+    print("governance boundary validation failed:", file=sys.stderr)
+    for error in errors:
+        print(f"- {error}", file=sys.stderr)
+    raise SystemExit(1)
+
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 if "Apache License" not in license_text or "Version 2.0" not in license_text:
     fail("LICENSE must remain Apache License 2.0")
