@@ -10,6 +10,7 @@ from urllib.parse import unquote, urlsplit
 
 import html5lib
 import tinycss2
+from jsonschema import Draft202012Validator, FormatChecker
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
@@ -244,6 +245,144 @@ else:
     expiry = datetime.fromisoformat(expires.replace("Z", "+00:00"))
     if expiry <= datetime.now(timezone.utc):
         fail("web/.well-known/security.txt is expired")
+
+
+provenance_path = WEB / "provenance.json"
+claims_path = WEB / "claims.json"
+provenance_schema_path = WEB / "provenance.schema.json"
+claims_schema_path = WEB / "claims.schema.json"
+
+provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+claims_document = json.loads(claims_path.read_text(encoding="utf-8"))
+provenance_schema = json.loads(provenance_schema_path.read_text(encoding="utf-8"))
+claims_schema = json.loads(claims_schema_path.read_text(encoding="utf-8"))
+
+for label, schema, document in (
+    ("provenance", provenance_schema, provenance),
+    ("claims", claims_schema, claims_document),
+):
+    validator = Draft202012Validator(schema, format_checker=FormatChecker())
+    for error in sorted(validator.iter_errors(document), key=lambda item: list(item.path)):
+        fail(f"{label} schema error at {list(error.path)}: {error.message}")
+
+source_ids = [source["id"] for source in provenance.get("sources", [])]
+if len(source_ids) != len(set(source_ids)):
+    fail("provenance source IDs must be unique")
+known_sources = set(source_ids)
+
+claims = claims_document.get("claims", [])
+claim_ids = [claim["id"] for claim in claims]
+if len(claim_ids) != len(set(claim_ids)):
+    fail("public claim IDs must be unique")
+claim_by_id = {claim["id"]: claim for claim in claims}
+
+for claim in claims:
+    unknown_sources = sorted(set(claim["sourceIds"]) - known_sources)
+    if unknown_sources:
+        fail(f"{claim['id']} references unknown RFC sources: {unknown_sources}")
+    if claim["confidence"] in {"conformance", "deployment", "clinical"} and not claim.get("evidenceRefs"):
+        fail(f"{claim['id']} requires evidenceRefs at {claim['confidence']} confidence")
+    if claim["confidence"] == "clinical" and not claim.get("clinicalEvidence"):
+        fail(f"{claim['id']} requires governed clinicalEvidence")
+
+page_manifest = {page["path"]: page for page in provenance.get("pages", [])}
+if set(page_manifest) != {page.name for page in PAGES}:
+    fail("provenance pages must exactly cover the public HTML pages")
+
+used_claim_ids: set[str] = set()
+for page, root in page_roots.items():
+    page_name = page.name
+    manifest = page_manifest.get(page_name)
+    if manifest is None:
+        continue
+
+    metas = {
+        node.attrib.get("name"): node.attrib.get("content")
+        for node in root.findall(".//meta")
+        if node.attrib.get("name", "").startswith("myosotis-")
+    }
+    if metas.get("myosotis-source-revision") != manifest["sourceRevision"]:
+        fail(f"{page_name} source revision does not match provenance manifest")
+    if metas.get("myosotis-reviewed-at") != manifest["reviewedAt"]:
+        fail(f"{page_name} reviewed-at does not match provenance manifest")
+    if metas.get("myosotis-publication-status") != provenance["publicationStatus"]:
+        fail(f"{page_name} publication status does not match provenance manifest")
+
+    alternates = {
+        node.attrib.get("href")
+        for node in root.findall(".//link")
+        if node.attrib.get("rel") == "alternate"
+        and node.attrib.get("type") == "application/json"
+    }
+    if not {"provenance.json", "claims.json"}.issubset(alternates):
+        fail(f"{page_name} must link the public provenance and claims JSON")
+
+    sections = root.findall(".//main//section")
+    page_claim_ids = []
+    for section in sections:
+        claim_id = section.attrib.get("data-claim-id")
+        confidence = section.attrib.get("data-claim-confidence")
+        if not claim_id or not confidence:
+            fail(f"{page_name} has an untracked substantive section")
+            continue
+        page_claim_ids.append(claim_id)
+        used_claim_ids.add(claim_id)
+        claim = claim_by_id.get(claim_id)
+        if claim is None:
+            fail(f"{page_name} references unknown claim {claim_id}")
+            continue
+        if confidence != claim["confidence"]:
+            fail(
+                f"{page_name} claim {claim_id} declares {confidence} confidence "
+                f"but ledger records {claim['confidence']}"
+            )
+        if page_name not in claim["publicSurfaces"]:
+            fail(f"{claim_id} does not declare {page_name} as a public surface")
+
+    if page_claim_ids != manifest["claimIds"]:
+        fail(f"{page_name} claim order/set does not match provenance manifest")
+
+if used_claim_ids != set(claim_ids):
+    missing = sorted(set(claim_ids) - used_claim_ids)
+    extra = sorted(used_claim_ids - set(claim_ids))
+    if missing:
+        fail(f"claims ledger entries are not referenced by pages: {missing}")
+    if extra:
+        fail(f"pages reference claims absent from ledger: {extra}")
+
+if provenance.get("sourceRevision") != next(
+    (page["sourceRevision"] for page in provenance.get("pages", [])),
+    None,
+):
+    fail("site-wide sourceRevision must match page sourceRevision baseline")
+
+for page in provenance.get("pages", []):
+    if page["sourceRevision"] != provenance["sourceRevision"]:
+        fail(f"{page['path']} source revision is stale relative to site manifest")
+    if page["reviewedAt"] != provenance["reviewedAt"]:
+        fail(f"{page['path']} review date is stale relative to site manifest")
+
+positive_clinical_patterns = (
+    "is clinically validated",
+    "has clinical efficacy",
+    "is hipaa compliant",
+    "is pipeda compliant",
+    "has regulatory approval",
+    "diagnoses patients",
+    "treats patients",
+)
+for page, root in page_roots.items():
+    for section in root.findall(".//main//section"):
+        text = " ".join("".join(section.itertext()).lower().split())
+        if any(pattern in text for pattern in positive_clinical_patterns):
+            claim_id = section.attrib.get("data-claim-id")
+            claim = claim_by_id.get(claim_id or "")
+            if claim is None or claim.get("confidence") != "clinical":
+                fail(
+                    f"{page.name} contains clinical/regulatory claim language "
+                    f"without clinical ledger confidence: {claim_id}"
+                )
+
 
 bad_names = ("Myo" + "tosis", "Mys" + "otosis")
 private_repo = re.compile(r"github\.com/hackelia-micrantha/myosotis(?:[/?#\"'<>]|$)")
