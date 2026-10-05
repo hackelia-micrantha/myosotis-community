@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import shutil
 import sys
 from urllib.parse import urljoin
 
@@ -18,14 +19,23 @@ ROUTES = {
 
 
 def driver(width: int, height: int):
+    chromium = shutil.which("chromium")
+    chromedriver = shutil.which("chromedriver")
+    assert chromium, "flake-provided chromium is not on PATH"
+    assert chromedriver, "flake-provided chromedriver is not on PATH"
+
     options = Options()
+    options.binary_location = chromium
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--force-prefers-reduced-motion=reduce")
     options.add_argument(f"--window-size={width},{height}")
     options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
-    return webdriver.Chrome(service=Service(), options=options)
+    return webdriver.Chrome(
+        service=Service(executable_path=chromedriver),
+        options=options,
+    )
 
 
 def check_route(browser, route: str, expected_heading: str) -> None:
