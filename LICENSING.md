@@ -4,7 +4,7 @@ Unless a file or directory contains an explicit alternative notice, all first-pa
 
 ## Artifact classes
 
-The same Apache-2.0 license applies to the current public repository classes:
+Artifact-class defaults are:
 
 | Artifact class | Default license | Notes |
 | --- | --- | --- |
