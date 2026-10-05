@@ -18,7 +18,7 @@ Run:
 nix flake check
 nix develop --command python3 scripts/validate_site.py
 nix develop --command sh -ceu 'for file in web/*.html; do tidy -q -errors --show-warnings no "$file" >/dev/null; done'
-nix develop --command lychee --no-progress --exclude-mail --max-retries 3 --accept 200,204,206,429 'web/**/*.html' 'README.md' 'docs/**/*.md'
+nix develop --command lychee --no-progress --max-retries 3 --accept 200,204,206,429 'web/**/*.html' 'README.md' 'docs/**/*.md'
 ```
 
 For browser validation:
