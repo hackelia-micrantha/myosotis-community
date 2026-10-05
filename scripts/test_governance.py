@@ -88,6 +88,13 @@ def add_rfc_like_doc(root: Path) -> None:
     )
 
 
+def add_hyphenated_rfc_like_doc(root: Path) -> None:
+    (root / "docs" / "RFC-015.md").write_text(
+        "# Accidental canonical-looking RFC\n",
+        encoding="utf-8",
+    )
+
+
 def enable_blank_issues(root: Path) -> None:
     path = root / ".github" / "ISSUE_TEMPLATE" / "config.yml"
     text = path.read_text(encoding="utf-8")
@@ -118,6 +125,11 @@ expect_failure(
 expect_failure(
     "RFC-like document",
     add_rfc_like_doc,
+    "RFC-like source file is not allowed",
+)
+expect_failure(
+    "hyphenated RFC-like document",
+    add_hyphenated_rfc_like_doc,
     "RFC-like source file is not allowed",
 )
 expect_failure(
