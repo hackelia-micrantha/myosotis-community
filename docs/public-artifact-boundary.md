@@ -51,7 +51,7 @@ A Stage 2 decision must specify:
 - synchronization and stale-artifact behavior;
 - public test/evidence requirements;
 - sanitization review;
-- licensing and third-party notices;
+- licensing and third-party notices, using Apache-2.0 for approved schemas/fixtures/conformance artifacts and MPL-2.0 by default for approved SDK/reference implementation source unless an existing reviewed license applies;
 - security and healthcare-data constraints.
 
 CI currently reserves top-level implementation/specification surfaces so adding them requires an explicit policy/validator change rather than accidental drift.
