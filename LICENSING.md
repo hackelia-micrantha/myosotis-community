@@ -13,7 +13,8 @@ The same Apache-2.0 license applies to the current public repository classes:
 | First-party diagrams and media | Apache-2.0 | Unless the asset carries a separate third-party or source-specific notice. |
 | Examples and synthetic fixtures | Apache-2.0 | Only after they pass the public/private and healthcare-data review described in `docs/public-artifact-boundary.md`. |
 | Public JSON schemas and machine-readable public metadata | Apache-2.0 | Current provenance/claims schemas are public publication contracts, not normative Myosotis protocol specifications. |
-| Any future sanitized protocol schema, conformance fixture, SDK, or reference client | Apache-2.0 by default | Publication requires a separate explicit boundary decision before the artifact is added. |
+| Future sanitized protocol schemas, fixtures, or conformance artifacts | Apache-2.0 by default | Publication requires a separate explicit boundary decision before the artifact is added. |
+| Future SDK/reference implementation source | MPL-2.0 by default | Publication requires a separate explicit boundary decision and preservation of any existing source license. |
 
 The license for this public repository does **not** grant rights to private Myosotis repositories, private RFC text, private SDK implementation, unpublished security analysis, internal evidence, private datasets, or any other material that is not present here.
 
@@ -21,15 +22,13 @@ Third-party material remains under its own license and must retain the applicabl
 
 ## Contributions
 
-No Contributor License Agreement (CLA) is required.
+No Contributor License Agreement (CLA) or Developer Certificate of Origin (DCO) sign-off is currently required.
 
-External contributions use a DCO-style sign-off. Contributors certify that they created the contribution or otherwise have the right to submit it under the repository's applicable license by adding:
+By intentionally submitting a contribution for inclusion, a contributor represents that they have the right to submit the material and agrees that accepted material may be distributed under the applicable outbound license for the target artifact class.
 
-```text
-Signed-off-by: Your Name <you@example.com>
-```
+If a future artifact class requires stronger contributor assurances, that policy must be changed explicitly before contributions in that class are accepted.
 
-to their commits. Maintainers must not add another person's sign-off on that person's behalf.
+The full Mozilla Public License 2.0 text for any future explicitly approved reference-source publication is included at `LICENSES/MPL-2.0.txt`. Publication from another repository preserves the source file's existing license; repository movement never implies relicensing.
 
 See `CONTRIBUTING.md` for contribution and provenance requirements.
 
