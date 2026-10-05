@@ -49,6 +49,9 @@ jobs:
       - name: Validate provenance and public claims
         run: nix develop -L --no-write-lock-file --command python3 scripts/validate_provenance.py
 
+      - name: Test provenance rejection cases
+        run: nix develop -L --no-write-lock-file --command python3 scripts/test_provenance_contract.py
+
       - name: Validate HTML
         run: |
           set -euo pipefail
