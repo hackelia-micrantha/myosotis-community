@@ -417,9 +417,6 @@ main {
 
 .section-band {
   background: var(--phyllotaxis-color-surface);
-  box-shadow:
-    calc(-1 * var(--phyllotaxis-gutter-page)) 0 0 var(--phyllotaxis-color-surface),
-    var(--phyllotaxis-gutter-page) 0 0 var(--phyllotaxis-color-surface);
 }
 
 .section-intro {
