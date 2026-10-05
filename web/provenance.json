@@ -107,5 +107,14 @@
         "MYO-WEB-THREAT-SOURCES"
       ]
     }
+  ],
+  "evidence": [
+    {
+      "id": "CORE-CONFORMANCE-2026-09-12",
+      "level": "conformance",
+      "sourceRevision": "073e1607a7ba5514111355e7133a2f18e31016f1",
+      "reviewedAt": "2026-10-05",
+      "summary": "Reviewed canonical protocol and Android reference-runtime conformance evidence for the bounded invocation path."
+    }
   ]
 }
