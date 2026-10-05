@@ -124,6 +124,11 @@ for evidence_id, evidence in evidence_by_id.items():
         continue
     if reviewed > today:
         fail(f"{evidence_id} reviewedAt cannot be in the future")
+    if evidence.get("sourceRevision") != provenance.get("sourceRevision"):
+        fail(
+            f"{evidence_id} is stale relative to provenance sourceRevision: "
+            f"{evidence.get('sourceRevision')} != {provenance.get('sourceRevision')}"
+        )
 
 referenced_claims: dict[str, set[str]] = {claim_id: set() for claim_id in claim_by_id}
 
@@ -278,6 +283,24 @@ for claim_id, claim in claim_by_id.items():
             fail(
                 f"{claim_id} confidence {confidence} exceeds referenced evidence level"
             )
+        try:
+            claim_date = date.fromisoformat(claim["reviewedAt"])
+        except (KeyError, TypeError, ValueError):
+            claim_date = None
+        if claim_date is not None:
+            for evidence_id in evidence_refs:
+                evidence = evidence_by_id.get(evidence_id)
+                if evidence is None:
+                    continue
+                try:
+                    evidence_date = date.fromisoformat(evidence["reviewedAt"])
+                except (KeyError, TypeError, ValueError):
+                    continue
+                if evidence_date > claim_date:
+                    fail(
+                        f"{claim_id} was reviewed before referenced evidence "
+                        f"{evidence_id}"
+                    )
 
     minimum_type_confidence = {
         "conformance": "conformance",
