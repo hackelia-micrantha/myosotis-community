@@ -11,6 +11,7 @@ ROUTES = {
     "": "Field-Operated AI,",
     "whitepaper.html": "Myosotis Design Summary",
     "threat-model.html": "Myosotis Threat Model",
+    "assets/styles.css": "--phyllotaxis-color-canvas",
     ".well-known/security.txt": "Contact: mailto:security.myosotis@micrantha.com",
 }
 
@@ -31,7 +32,7 @@ def validate(base: str) -> None:
         if not final_url.startswith("https://"):
             raise AssertionError(f"{route or '/'} did not resolve over HTTPS: {final_url}")
 
-        if route != ".well-known/security.txt":
+        if route.endswith(".html") or route == "":
             csp = headers.get("Content-Security-Policy", "")
             if "default-src 'none'" not in csp or "frame-ancestors 'none'" not in csp:
                 raise AssertionError(f"{route or '/'} missing expected CSP: {csp!r}")
