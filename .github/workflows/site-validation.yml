@@ -51,7 +51,14 @@ jobs:
           set -euo pipefail
           nix develop -L --no-write-lock-file --command sh -ceu '
             for file in web/*.html; do
-              tidy -q -errors --show-warnings no "$file" >/dev/null
+              set +e
+              tidy -q -errors "$file" >/dev/null
+              status=$?
+              set -e
+              if [ "$status" -ge 2 ]; then
+                echo "HTML Tidy reported errors in $file" >&2
+                exit "$status"
+              fi
             done
           '
 
