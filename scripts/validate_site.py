@@ -276,6 +276,29 @@ if len(claim_ids) != len(set(claim_ids)):
     fail("public claim IDs must be unique")
 claim_by_id = {claim["id"]: claim for claim in claims}
 
+evidence = provenance.get("evidence", [])
+evidence_ids = [item["id"] for item in evidence]
+if len(evidence_ids) != len(set(evidence_ids)):
+    fail("public evidence IDs must be unique")
+evidence_by_id = {item["id"]: item for item in evidence}
+
+confidence_rank = {
+    "design": 0,
+    "conformance": 1,
+    "deployment": 2,
+    "clinical": 3,
+}
+for item in evidence:
+    if item["sourceRevision"] != provenance["sourceRevision"]:
+        fail(
+            f"evidence {item['id']} is stale relative to the site source revision"
+        )
+    if item["reviewedAt"] > provenance["reviewedAt"]:
+        fail(
+            f"evidence {item['id']} review date cannot be newer than the "
+            "site provenance review date"
+        )
+
 for claim in claims:
     unknown_sources = sorted(set(claim["sourceIds"]) - known_sources)
     if unknown_sources:
@@ -284,6 +307,21 @@ for claim in claims:
         fail(f"{claim['id']} requires evidenceRefs at {claim['confidence']} confidence")
     if claim["confidence"] == "clinical" and not claim.get("clinicalEvidence"):
         fail(f"{claim['id']} requires governed clinicalEvidence")
+
+    for evidence_id in claim.get("evidenceRefs", []):
+        item = evidence_by_id.get(evidence_id)
+        if item is None:
+            fail(f"{claim['id']} references unknown evidence {evidence_id}")
+            continue
+        if confidence_rank[item["level"]] < confidence_rank[claim["confidence"]]:
+            fail(
+                f"{claim['id']} has {claim['confidence']} confidence but evidence "
+                f"{evidence_id} is only {item['level']}"
+            )
+        if item["reviewedAt"] > claim["reviewedAt"]:
+            fail(
+                f"{claim['id']} was reviewed before its evidence {evidence_id}"
+            )
 
 page_manifest = {page["path"]: page for page in provenance.get("pages", [])}
 if set(page_manifest) != {page.name for page in PAGES}:
