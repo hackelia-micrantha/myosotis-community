@@ -223,11 +223,16 @@ for page_name in PAGES:
         )
         if confidence != "clinical":
             prohibited_assertions = (
-                r"\b(?:is|are)\s+HIPAA[- ]compliant\b",
-                r"\b(?:is|are)\s+PIPEDA[- ]compliant\b",
+                r"\b(?:is|are|claims?\s+to\s+be)\s+HIPAA[- ]compliant\b",
+                r"\b(?:is|are|claims?\s+to\s+be)\s+PIPEDA[- ]compliant\b",
+                r"\b(?:complies?|compliant)\s+with\s+HIPAA\b",
+                r"\b(?:complies?|compliant)\s+with\s+PIPEDA\b",
+                r"\bHIPAA[- ]compliant\b",
+                r"\bPIPEDA[- ]compliant\b",
                 r"\bclinically\s+(?:validated|proven|effective)\b",
-                r"\b(?:has|have)\s+clinical\s+efficacy\b",
-                r"\b(?:is|are)\s+regulator(?:y|ily)\s+approved\b",
+                r"\b(?:has|have|demonstrates?)\s+clinical\s+efficacy\b",
+                r"\b(?:is|are|has|have)\s+(?:regulatory|regulator)\s+approval\b",
+                r"\b(?:approved|cleared)\s+by\s+(?:a\s+)?(?:healthcare\s+)?regulator\b",
                 r"\bproduction[- ]ready\b",
             )
             for pattern in prohibited_assertions:
