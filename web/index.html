@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
   <body class="page-shell">
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <a class="brand" href="index.html">
         <span class="brand-mark">M</span>
@@ -28,10 +29,10 @@
       </nav>
     </header>
 
-    <main>
+    <main id="main-content">
       <section class="hero">
         <div class="hero-headline">
-          <p class="eyebrow">Design exploration</p>
+          <p class="eyebrow">Draft specification + reference runtime</p>
           <h1>
             <span>Field-Operated AI,</span>
             <span>Bounded at the Device</span>
@@ -254,32 +255,40 @@
       <section class="section-grid section-band" id="state">
         <div class="section-intro">
           <p class="section-label">Current state</p>
-          <h2>Design system first. Proof later.</h2>
+          <h2>Specifications first. Reference runtime in progress.</h2>
         </div>
         <div class="section-copy">
           <p>
-            Myosotis currently exists as an RFC-backed design and governance
-            exploration. The current work defines architectural constraints,
-            threat models, policy semantics, audit requirements, distributed
-            execution behavior, and consent flows.
+            Myosotis now combines RFC-backed design work with a protocol v0.1
+            schema and fixture profile plus an Android-first deterministic
+            reference runtime slice. The implementation exercises bounded
+            invocation validation and device-local execution constraints.
           </p>
           <p>
-            It does not claim production validation yet. The value here is
-            architectural rigor, explicit constraints, and disciplined claims.
+            The implementation remains incomplete. It does not claim production
+            validation, clinical efficacy, regulatory approval, runtime
+            performance guarantees, or a complete or released SDK.
           </p>
         </div>
         <div class="status-grid">
           <div class="status-card">
-            <span>Available now</span>
-            <p>Reference architecture, threat model, and whitepaper summary.</p>
+            <span>Implemented evidence</span>
+            <p>
+              Protocol v0.1 schemas and fixtures plus an initial Android
+              deterministic reference runtime slice exist in the canonical
+              implementation.
+            </p>
           </div>
           <div class="status-card">
             <span>Not claimed</span>
             <p>Production deployment, runtime performance, or efficacy outcomes.</p>
           </div>
           <div class="status-card">
-            <span>Next step</span>
-            <p>Use the published design to evaluate fit, constraints, and risks.</p>
+            <span>Public surface</span>
+            <p>
+              Use these design summaries to evaluate the architecture,
+              constraints, threat model, and current maturity.
+            </p>
           </div>
         </div>
       </section>
