@@ -39,7 +39,9 @@ CI also runs Gitleaks against repository history and validates:
 - unexpired `security.txt`;
 - local asset/fragment integrity;
 - the expected Phyllotaxis Utility profile;
-- parseable HTML/CSS;
+- WCAG AA text/link contrast for the published Utility token pairs;
+- parseable HTML/CSS and root Wrangler asset configuration;
+- read-only workflow permission and immutable third-party action pins;
 - static security-header policy.
 
 The deployed header policy is intentionally strict because the site has no scripts or remote font dependency. HSTS is scoped to the Myosotis host only; it does not set `includeSubDomains` or request preload.
@@ -48,7 +50,7 @@ The deployed header policy is intentionally strict because the site has no scrip
 
 After a push to `main`, CI polls the canonical URL from `security.txt` and verifies:
 
-- the home, design summary, threat model, and security.txt are reachable over HTTPS;
+- the home, design summary, threat model, stylesheet, and security.txt are reachable over HTTPS;
 - the expected page markers are present;
 - CSP, referrer policy, nosniff, permissions policy, and HSTS are served.
 
