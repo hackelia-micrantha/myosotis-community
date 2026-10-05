@@ -1,0 +1,106 @@
+name: Site Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Static and browser validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+        with:
+          determinate: false
+          diagnostic-endpoint: ""
+          github-token: ""
+          kvm: false
+
+      - name: Validate pinned toolchain
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- flake.lock
+          nix build -L --no-write-lock-file .#ci-toolchain --no-link
+          nix flake check -L --no-write-lock-file
+          git diff --exit-code -- flake.lock
+
+      - name: Validate site contracts
+        run: nix develop -L --no-write-lock-file --command python3 scripts/validate_site.py
+
+      - name: Validate HTML
+        run: |
+          set -euo pipefail
+          nix develop -L --no-write-lock-file --command sh -ceu '
+            for file in web/*.html; do
+              tidy -q -errors --show-warnings no "$file" >/dev/null
+            done
+          '
+
+      - name: Check links
+        run: >-
+          nix develop -L --no-write-lock-file --command
+          lychee --no-progress --exclude-mail --max-retries 3
+          --accept 200,204,206,429
+          'web/**/*.html' 'README.md' 'docs/**/*.md'
+
+      - name: Run desktop and mobile browser smoke
+        run: |
+          set -euo pipefail
+          nix develop -L --no-write-lock-file --command python3 -m http.server 4173 --directory web > /tmp/myosotis-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:4173/index.html >/dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+          nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
+
+      - name: Scan repository for secrets
+        run: nix develop -L --no-write-lock-file --command gitleaks git --redact --no-banner .
+
+  production-smoke:
+    name: Production smoke
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact main revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+        with:
+          determinate: false
+          diagnostic-endpoint: ""
+          github-token: ""
+          kvm: false
+
+      - name: Verify canonical production site
+        run: >-
+          nix develop -L --no-write-lock-file --command
+          python3 scripts/production_smoke.py
+          --base-url https://myosotis.micrantha.com/
+          --attempts 18 --delay 10
