@@ -28,7 +28,9 @@ publication_status: provisional | reviewed | evidence-backed
 reviewed_at: YYYY-MM-DD
 ```
 
-A site-wide provenance manifest may cover multiple pages when they are reviewed from the same source revision. Page-specific overrides should be used when sources differ.
+The deployed machine-readable projection is `web/provenance.json`, with approved public claim groups in `web/claims.json`. A site-wide provenance manifest may cover multiple pages when they are reviewed from the same source revision. Page-specific overrides should be used when sources differ.
+
+The deployed projection intentionally contains only approved source revision, RFC identifiers/statuses, review dates, claim IDs/types/confidence, evidence-reference identifiers, limitations, and public surfaces. It must not copy private RFC text, internal paths, issue/PR content, healthcare data, or exploit-sensitive implementation detail. See `docs/provenance.md`.
 
 ## Draft-derived publication
 
@@ -83,7 +85,8 @@ This public repository is canonical only for the public website and community-fa
 Before publication or material revision:
 
 - [ ] Project naming is consistently `Myosotis`.
-- [ ] Source revision and RFC statuses are recorded.
+- [ ] Source revision and RFC statuses are recorded in the machine-readable provenance manifest.
+- [ ] Every substantive public section has a claims-ledger binding and evidence confidence.
 - [ ] Claims do not exceed their evidence level.
 - [ ] Healthcare examples use synthetic or non-production framing.
 - [ ] No private repository paths, secrets, patient data, or exploit-sensitive detail are exposed.
