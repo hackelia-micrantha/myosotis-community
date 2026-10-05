@@ -53,20 +53,12 @@ The deployed site publishes `/.well-known/security.txt` from [`web/.well-known/s
 
 ## Contributing and licensing
 
-Public contributions are welcome within the documented public/private boundary. See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/public-artifact-boundary.md`](docs/public-artifact-boundary.md), and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+Public contributions are welcome within the repository's deliberately non-normative boundary. See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/public-artifact-boundary.md`](docs/public-artifact-boundary.md), and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
 
-First-party material in this public repository is licensed under Apache-2.0 unless explicitly marked otherwise; see [`LICENSING.md`](LICENSING.md). No CLA is required. External contributions use DCO-style commit sign-off.
+Current first-party public material is Apache-2.0. Future SDK/reference implementation source is not currently published; if that boundary is explicitly enabled, its default is MPL-2.0 unless an existing reviewed source license applies. No CLA or DCO sign-off is currently required; contributors must still disclose provenance and affirm their right to submit material under the applicable outbound license. See [`LICENSING.md`](LICENSING.md).
 
 Publishing protocol schemas, conformance artifacts, SDK/reference code, or transferring normative specification authority requires a separate explicit boundary decision; ordinary public issues/PRs cannot create normative Myosotis requirements.
-
 ## Contact
 
 - General: `myosotis@micrantha.com`
 - Security: `security.myosotis@micrantha.com`
-
-
-## Contributing and licensing
-
-Public contributions are welcome within the repository's deliberately non-normative boundary. See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/public-artifact-boundary.md`](docs/public-artifact-boundary.md).
-
-Current first-party public material is Apache-2.0. Future SDK/reference implementation source is not currently published; if that boundary is explicitly enabled, its default is MPL-2.0 unless an existing reviewed source license applies. See [`LICENSING.md`](LICENSING.md).
