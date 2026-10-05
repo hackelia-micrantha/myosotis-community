@@ -109,7 +109,7 @@ claims_path.write_text(
 unreviewed = sorted(set(PAGES) - reviewed_pages)
 print(
     "updated approved public provenance metadata; review the diff and run "
-    "scripts/validate_site.py before publication"
+    "scripts/validate_site.py and scripts/validate_provenance.py before publication"
 )
 if unreviewed:
     print(
