@@ -166,7 +166,7 @@ else:
     if expiry <= datetime.now(timezone.utc):
         fail("web/.well-known/security.txt is expired")
 
-bad_names = ("Myotosis", "Mysotosis")
+bad_names = ("Myo" + "tosis", "Mys" + "otosis")
 private_repo = re.compile(r"github\.com/hackelia-micrantha/myosotis(?:[/?#\"'<>]|$)")
 for path in ROOT.rglob("*"):
     if not path.is_file() or path.suffix not in TEXT_SUFFIXES:
