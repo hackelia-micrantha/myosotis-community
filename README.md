@@ -63,3 +63,10 @@ Publishing protocol schemas, conformance artifacts, SDK/reference code, or trans
 
 - General: `myosotis@micrantha.com`
 - Security: `security.myosotis@micrantha.com`
+
+
+## Contributing and licensing
+
+Public contributions are welcome within the repository's deliberately non-normative boundary. See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/public-artifact-boundary.md`](docs/public-artifact-boundary.md).
+
+Current first-party public material is Apache-2.0. Future SDK/reference implementation source is not currently published; if that boundary is explicitly enabled, its default is MPL-2.0 unless an existing reviewed source license applies. See [`LICENSING.md`](LICENSING.md).
