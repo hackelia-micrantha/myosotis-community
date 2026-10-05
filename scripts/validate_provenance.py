@@ -82,8 +82,22 @@ if all(item is not None for item in (provenance, provenance_schema)):
 if all(item is not None for item in (claims_doc, claims_schema)):
     validate_json(claims_doc, claims_schema, "claims")
 
-if provenance is None or claims_doc is None:
+if any(
+    item is None
+    for item in (provenance, claims_doc, provenance_schema, claims_schema)
+):
     raise SystemExit(1)
+
+if errors:
+    print("provenance schema validation failed:", file=sys.stderr)
+    for error in errors:
+        print(f"- {error}", file=sys.stderr)
+    raise SystemExit(1)
+
+KNOWN_RFC_IDS = {
+    f"RFC-{number:03d}"
+    for number in range(1, 18)
+}
 
 source_by_id = unique_by(provenance.get("sources", []), "id", "source id")
 evidence_by_id = unique_by(provenance.get("evidence", []), "id", "evidence id")
@@ -230,6 +244,10 @@ for page_name in PAGES:
         )
 
 known_sources = set(source_by_id)
+unknown_manifest_sources = sorted(known_sources - KNOWN_RFC_IDS)
+if unknown_manifest_sources:
+    fail(f"provenance contains unknown RFC ids: {unknown_manifest_sources}")
+
 known_evidence = set(evidence_by_id)
 
 for claim_id, claim in claim_by_id.items():
