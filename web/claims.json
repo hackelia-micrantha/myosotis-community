@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "project": "Myosotis",
+  "claims": [
+    {
+      "id": "MYO-WEB-INDEX-OVERVIEW",
+      "claim": "Myosotis is presented as a provisional field-operated AI architecture with device-bounded execution and explicit non-production framing.",
+      "type": "design",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-001",
+        "RFC-005",
+        "RFC-008"
+      ],
+      "publicSurfaces": [
+        "index.html"
+      ],
+      "limitations": [
+        "Public summary only; requirements may change while source RFCs remain Draft."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-INDEX-PROBLEM",
+      "claim": "Field environments motivate local authority because connectivity, network trust, sensitive data proximity, and action consequences differ from cloud-first assumptions.",
+      "type": "design",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-001",
+        "RFC-006"
+      ],
+      "publicSurfaces": [
+        "index.html"
+      ],
+      "limitations": [
+        "This is design context, not deployment or reliability evidence."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-INDEX-ARCHITECTURE",
+      "claim": "The design places final execution decisions at the device while allowing central systems to coordinate bounded discovery and routing.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-003",
+        "RFC-005",
+        "RFC-013"
+      ],
+      "publicSurfaces": [
+        "index.html"
+      ],
+      "limitations": [
+        "This describes intended authority boundaries, not a universal production guarantee."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-INDEX-SAFETY",
+      "claim": "The public safety model uses scoped capabilities, provenance, local enforcement, consent, audit, and fail-closed behavior to bound risk.",
+      "type": "risk-bounding",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-002",
+        "RFC-003",
+        "RFC-004",
+        "RFC-006",
+        "RFC-013",
+        "RFC-014"
+      ],
+      "publicSurfaces": [
+        "index.html"
+      ],
+      "limitations": [
+        "Risk is bounded by design constraints; it is not claimed to be eliminated."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-INDEX-FIELD",
+      "claim": "Healthcare-first and other regulated field scenarios inform the design constraints without implying clinical or regulatory validation.",
+      "type": "design",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-001",
+        "RFC-009"
+      ],
+      "publicSurfaces": [
+        "index.html"
+      ],
+      "limitations": [
+        "Examples are non-clinical and do not represent production patient-data handling."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-INDEX-STATE",
+      "claim": "A protocol v0.1 schema/fixture profile and an Android-first deterministic reference-runtime slice exist at the reviewed canonical revision.",
+      "type": "conformance",
+      "confidence": "conformance",
+      "sourceIds": [
+        "RFC-003",
+        "RFC-005",
+        "RFC-013",
+        "RFC-014"
+      ],
+      "evidenceRefs": [
+        "CORE-CONFORMANCE-2026-09-12"
+      ],
+      "publicSurfaces": [
+        "index.html"
+      ],
+      "limitations": [
+        "Evidence is limited to the reviewed conformance/runtime slice; no production, performance, regulatory, or clinical claim follows."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-INDEX-REFERENCE",
+      "claim": "The public site is a non-normative review surface and does not create protocol or SDK requirements.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-008"
+      ],
+      "publicSurfaces": [
+        "index.html"
+      ],
+      "limitations": [
+        "Canonical requirements remain governed outside the public publication surface."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-SCOPE",
+      "claim": "The design summary is a limited public projection of the RFC set and intentionally avoids production, performance, and efficacy claims.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-008"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "Requirements may change while represented RFCs remain Draft."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-DEFINITION",
+      "claim": "Myosotis is designed as a security-bounded mobile execution architecture with local policy, explicit invocation, attributable audit, and human consent.",
+      "type": "design",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-001",
+        "RFC-003",
+        "RFC-004",
+        "RFC-005",
+        "RFC-014"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "Architecture intent is not deployment evidence."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-PRINCIPLES",
+      "claim": "The design prioritizes bounded tools, operator clarity, explicit trust boundaries, and containment over unconstrained autonomy.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-002",
+        "RFC-003",
+        "RFC-005",
+        "RFC-006"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "These are design principles, not measured safety outcomes."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-ARCHITECTURE",
+      "claim": "The architecture separates coordination functions from device-side policy, consent, audit, and execution authority.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-005",
+        "RFC-010",
+        "RFC-012",
+        "RFC-013"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "The summary intentionally omits implementation-sensitive detail."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-AUTHORITY",
+      "claim": "Agent requests and remote authorization metadata do not override device-local policy or create implicit execution authority.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-003",
+        "RFC-013"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "Specific authorization mechanisms remain governed by the canonical RFCs."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-CONSENT",
+      "claim": "Consent is modeled as a bounded security control and distributed outcomes must remain legible rather than collapsing into ambiguous aggregate success.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-012",
+        "RFC-014"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "No human-factors or clinical usability outcome is claimed."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-FAILURE",
+      "claim": "Failure handling is designed to fail closed on invalid authority and preserve bounded behavior under degraded conditions.",
+      "type": "risk-bounding",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-006",
+        "RFC-012",
+        "RFC-013"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "This is intended failure behavior, not an availability or reliability guarantee."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-STATUS",
+      "claim": "The public design summary remains provisional and is not a claim of production validation.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-008"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "Public maturity wording is deliberately conservative."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-SUMMARY-SOURCES",
+      "claim": "The public summary maps its subject areas to RFC-001 through RFC-014, whose represented statuses are recorded in the provenance manifest.",
+      "type": "design",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-001",
+        "RFC-002",
+        "RFC-003",
+        "RFC-004",
+        "RFC-005",
+        "RFC-006",
+        "RFC-007",
+        "RFC-008",
+        "RFC-009",
+        "RFC-010",
+        "RFC-011",
+        "RFC-012",
+        "RFC-013",
+        "RFC-014"
+      ],
+      "publicSurfaces": [
+        "whitepaper.html"
+      ],
+      "limitations": [
+        "RFC identifiers and statuses are public metadata only; private RFC text is not exported."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-THREAT-SCOPE",
+      "claim": "The threat page is a public, non-exhaustive projection of canonical threat and security-boundary work.",
+      "type": "design",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-002",
+        "RFC-008"
+      ],
+      "publicSurfaces": [
+        "threat-model.html"
+      ],
+      "limitations": [
+        "Exploit-sensitive detail and private analysis are intentionally omitted."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-THREAT-BOUNDARIES",
+      "claim": "Agents, devices, tools, and coordination systems are treated as untrusted by default, with device-local policy preserving the final execution boundary.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-002",
+        "RFC-003",
+        "RFC-010",
+        "RFC-011",
+        "RFC-013"
+      ],
+      "publicSurfaces": [
+        "threat-model.html"
+      ],
+      "limitations": [
+        "This is a design invariant, not proof that all implementations satisfy it."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-THREAT-PRIMARY",
+      "claim": "The public threat model includes cross-device escalation, registry poisoning, policy overreach, hidden execution scope, and tool-supply-chain failure classes.",
+      "type": "design",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-002",
+        "RFC-010",
+        "RFC-011",
+        "RFC-012"
+      ],
+      "publicSurfaces": [
+        "threat-model.html"
+      ],
+      "limitations": [
+        "Threat enumeration is intentionally summarized and is not exhaustive."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-THREAT-MITIGATION",
+      "claim": "The design combines signed artifacts, device-side enforcement, identity, consent, audit, and fail-closed rules to contain identified threat classes.",
+      "type": "risk-bounding",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-002",
+        "RFC-003",
+        "RFC-004",
+        "RFC-006",
+        "RFC-010",
+        "RFC-011",
+        "RFC-013",
+        "RFC-014"
+      ],
+      "publicSurfaces": [
+        "threat-model.html"
+      ],
+      "limitations": [
+        "Mitigations reduce or contain risk by design; they do not eliminate risk."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-THREAT-INVARIANTS",
+      "claim": "Federation must not create remote authority, implicit trust, hidden scope, silent degradation, or mutable unreviewed trust surfaces.",
+      "type": "constraint",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-002",
+        "RFC-010",
+        "RFC-011",
+        "RFC-012",
+        "RFC-013",
+        "RFC-014"
+      ],
+      "publicSurfaces": [
+        "threat-model.html"
+      ],
+      "limitations": [
+        "These are governing constraints subject to canonical RFC evolution."
+      ],
+      "reviewedAt": "2026-10-05"
+    },
+    {
+      "id": "MYO-WEB-THREAT-SOURCES",
+      "claim": "The threat summary identifies the public RFC metadata that principally informs the page without exposing private RFC text.",
+      "type": "design",
+      "confidence": "design",
+      "sourceIds": [
+        "RFC-002",
+        "RFC-005",
+        "RFC-008",
+        "RFC-010",
+        "RFC-011",
+        "RFC-012",
+        "RFC-013",
+        "RFC-014"
+      ],
+      "publicSurfaces": [
+        "threat-model.html"
+      ],
+      "limitations": [
+        "Only identifiers/status are published; detailed analysis remains outside this public projection."
+      ],
+      "reviewedAt": "2026-10-05"
+    }
+  ]
+}

@@ -8,6 +8,11 @@
       name="description"
       content="A limited public design summary of the Myosotis RFC set covering field-operated AI, trust boundaries, policy enforcement, distributed execution, and consent."
     />
+    <meta name="myosotis-source-revision" content="073e1607a7ba5514111355e7133a2f18e31016f1" />
+    <meta name="myosotis-reviewed-at" content="2026-10-05" />
+    <meta name="myosotis-publication-status" content="provisional" />
+    <link rel="alternate" type="application/json" href="provenance.json" title="Myosotis provenance" />
+    <link rel="alternate" type="application/json" href="claims.json" title="Myosotis public claims ledger" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
@@ -31,7 +36,7 @@
     </header>
 
     <main class="paper-layout" id="main-content">
-      <section class="paper-hero" id="summary">
+      <section class="paper-hero" id="summary" data-claim-id="MYO-WEB-SUMMARY-SCOPE" data-claim-confidence="design">
         <p class="eyebrow">Limited public design summary</p>
         <h1>Myosotis Design Summary</h1>
         <p class="lede">
@@ -45,7 +50,7 @@
         </p>
       </section>
 
-      <section class="paper-section">
+      <section class="paper-section" data-claim-id="MYO-WEB-SUMMARY-DEFINITION" data-claim-confidence="design">
         <h2>What Myosotis is</h2>
         <p>
           Myosotis is a security-bounded architecture for field-operated AI tools
@@ -61,7 +66,7 @@
         </p>
       </section>
 
-      <section class="paper-section" id="principles">
+      <section class="paper-section" id="principles" data-claim-id="MYO-WEB-SUMMARY-PRINCIPLES" data-claim-confidence="design">
         <h2>Core design principles</h2>
         <div class="paper-grid">
           <article class="paper-card">
@@ -95,7 +100,7 @@
         </div>
       </section>
 
-      <section class="paper-section">
+      <section class="paper-section" data-claim-id="MYO-WEB-SUMMARY-ARCHITECTURE" data-claim-confidence="design">
         <h2>Architecture in brief</h2>
         <p>
           Myosotis uses a two-plane model. The control plane handles discovery,
@@ -109,7 +114,7 @@
         </p>
       </section>
 
-      <section class="paper-section">
+      <section class="paper-section" data-claim-id="MYO-WEB-SUMMARY-AUTHORITY" data-claim-confidence="design">
         <h2>Local authority and explicit invocation</h2>
         <p>
           A request from an agent does not imply permission to execute.
@@ -123,7 +128,7 @@
         </p>
       </section>
 
-      <section class="paper-section">
+      <section class="paper-section" data-claim-id="MYO-WEB-SUMMARY-CONSENT" data-claim-confidence="design">
         <h2>Consent and operator visibility</h2>
         <p>
           Human consent is treated as a security control, not a UX decoration.
@@ -138,7 +143,7 @@
         </p>
       </section>
 
-      <section class="paper-section">
+      <section class="paper-section" data-claim-id="MYO-WEB-SUMMARY-FAILURE" data-claim-confidence="design">
         <h2>Failure model</h2>
         <p>
           Myosotis is designed around deterministic, fail-closed behavior. Policy
@@ -152,7 +157,7 @@
         </p>
       </section>
 
-      <section class="paper-section">
+      <section class="paper-section" data-claim-id="MYO-WEB-SUMMARY-STATUS" data-claim-confidence="design">
         <h2>Current status</h2>
         <p>
           Myosotis currently exists as a design and governance effort backed by
@@ -162,7 +167,7 @@
         </p>
       </section>
 
-      <section class="paper-section" id="rfcs">
+      <section class="paper-section" id="rfcs" data-claim-id="MYO-WEB-SUMMARY-SOURCES" data-claim-confidence="design">
         <h2>RFC sources</h2>
         <ul class="paper-list">
           <li>

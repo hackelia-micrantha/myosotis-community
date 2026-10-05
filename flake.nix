@@ -18,6 +18,7 @@
           pkgs = import nixpkgs { inherit system; };
           python = pkgs.python3.withPackages (ps: [
             ps.html5lib
+            ps.jsonschema
             ps.selenium
             ps.tinycss2
           ]);
@@ -64,6 +65,7 @@
           } ''
             python3 - <<'PY'
             import html5lib
+            import jsonschema
             import selenium
             import tinycss2
             print("python validation modules available")

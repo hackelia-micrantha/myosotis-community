@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "project": "Myosotis",
+  "sourceRevision": "073e1607a7ba5514111355e7133a2f18e31016f1",
+  "reviewedAt": "2026-10-05",
+  "publicationStatus": "provisional",
+  "defaultConfidence": "design",
+  "sources": [
+    {
+      "id": "RFC-001",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-002",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-003",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-004",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-005",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-006",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-007",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-008",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-009",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-010",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-011",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-012",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-013",
+      "status": "Draft"
+    },
+    {
+      "id": "RFC-014",
+      "status": "Draft"
+    }
+  ],
+  "pages": [
+    {
+      "path": "index.html",
+      "sourceRevision": "073e1607a7ba5514111355e7133a2f18e31016f1",
+      "reviewedAt": "2026-10-05",
+      "claimIds": [
+        "MYO-WEB-INDEX-OVERVIEW",
+        "MYO-WEB-INDEX-PROBLEM",
+        "MYO-WEB-INDEX-ARCHITECTURE",
+        "MYO-WEB-INDEX-SAFETY",
+        "MYO-WEB-INDEX-FIELD",
+        "MYO-WEB-INDEX-STATE",
+        "MYO-WEB-INDEX-REFERENCE"
+      ]
+    },
+    {
+      "path": "whitepaper.html",
+      "sourceRevision": "073e1607a7ba5514111355e7133a2f18e31016f1",
+      "reviewedAt": "2026-10-05",
+      "claimIds": [
+        "MYO-WEB-SUMMARY-SCOPE",
+        "MYO-WEB-SUMMARY-DEFINITION",
+        "MYO-WEB-SUMMARY-PRINCIPLES",
+        "MYO-WEB-SUMMARY-ARCHITECTURE",
+        "MYO-WEB-SUMMARY-AUTHORITY",
+        "MYO-WEB-SUMMARY-CONSENT",
+        "MYO-WEB-SUMMARY-FAILURE",
+        "MYO-WEB-SUMMARY-STATUS",
+        "MYO-WEB-SUMMARY-SOURCES"
+      ]
+    },
+    {
+      "path": "threat-model.html",
+      "sourceRevision": "073e1607a7ba5514111355e7133a2f18e31016f1",
+      "reviewedAt": "2026-10-05",
+      "claimIds": [
+        "MYO-WEB-THREAT-SCOPE",
+        "MYO-WEB-THREAT-BOUNDARIES",
+        "MYO-WEB-THREAT-PRIMARY",
+        "MYO-WEB-THREAT-MITIGATION",
+        "MYO-WEB-THREAT-INVARIANTS",
+        "MYO-WEB-THREAT-SOURCES"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "CORE-CONFORMANCE-2026-09-12",
+      "level": "conformance",
+      "sourceRevision": "073e1607a7ba5514111355e7133a2f18e31016f1",
+      "reviewedAt": "2026-10-05",
+      "summary": "Reviewed canonical protocol and Android reference-runtime conformance evidence for the bounded invocation path."
+    }
+  ]
+}

@@ -43,7 +43,7 @@ Public summaries must identify:
 - whether a statement is design intent, conformance evidence, deployment evidence, or clinical evidence;
 - known omissions or unresolved decisions.
 
-See [`docs/publication-policy.md`](docs/publication-policy.md).
+See [`docs/publication-policy.md`](docs/publication-policy.md) and [`docs/provenance.md`](docs/provenance.md). The deployed site publishes [`web/provenance.json`](web/provenance.json) and [`web/claims.json`](web/claims.json) as the machine-readable public projection.
 
 ## Security
 

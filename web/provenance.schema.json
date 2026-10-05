@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://myosotis.micrantha.com/provenance.schema.json",
+  "title": "Myosotis public provenance manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "project",
+    "sourceRevision",
+    "reviewedAt",
+    "publicationStatus",
+    "defaultConfidence",
+    "sources",
+    "pages",
+    "evidence"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "project": {
+      "const": "Myosotis"
+    },
+    "sourceRevision": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "reviewedAt": {
+      "type": "string",
+      "format": "date"
+    },
+    "publicationStatus": {
+      "enum": [
+        "provisional",
+        "reviewed",
+        "evidence-backed"
+      ]
+    },
+    "defaultConfidence": {
+      "enum": [
+        "design",
+        "conformance",
+        "deployment",
+        "clinical"
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^RFC-[0-9]{3}$"
+          },
+          "status": {
+            "enum": [
+              "Draft",
+              "Proposed",
+              "Accepted",
+              "Implemented",
+              "Planned"
+            ]
+          }
+        }
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sourceRevision",
+          "reviewedAt",
+          "claimIds"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^[a-z0-9._/-]+\\.html$"
+          },
+          "sourceRevision": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "reviewedAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "claimIds": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^MYO-WEB-[A-Z0-9-]+$"
+            }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "level",
+          "sourceRevision",
+          "reviewedAt",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Z0-9-]+$"
+          },
+          "level": {
+            "enum": [
+              "design",
+              "conformance",
+              "deployment",
+              "clinical"
+            ]
+          },
+          "sourceRevision": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "reviewedAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    }
+  }
+}
