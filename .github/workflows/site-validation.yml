@@ -52,6 +52,12 @@ jobs:
       - name: Test provenance rejection cases
         run: nix develop -L --no-write-lock-file --command python3 scripts/test_provenance_contract.py
 
+      - name: Validate public contribution boundary
+        run: nix develop -L --no-write-lock-file --command python3 scripts/validate_governance.py
+
+      - name: Test governance rejection cases
+        run: nix develop -L --no-write-lock-file --command python3 scripts/test_governance.py
+
       - name: Validate HTML
         run: |
           set -euo pipefail

@@ -1,0 +1,70 @@
+name: Technical publication review
+description: Request review before publishing protocol/schema/fixture/SDK/conformance or private-derived material
+title: "publication: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template requests a boundary decision/review. Do not attach private source, private RFC text, healthcare data, credentials, or exploit-sensitive evidence.
+  - type: textarea
+    id: artifact
+    attributes:
+      label: Proposed public artifact
+      description: What exact artifact or artifact class should become public?
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Canonical source and revision
+      description: Identify the owning source and reviewed revision without copying private content.
+    validations:
+      required: true
+  - type: dropdown
+    id: authority
+    attributes:
+      label: Intended authority
+      options:
+        - Non-normative derived artifact
+        - Generated mirror of canonical artifact
+        - Independent public implementation/reference
+        - Proposed normative authority transfer (requires separate governance decision)
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Highest evidence confidence
+      options:
+        - Design
+        - Conformance
+        - Deployment
+        - Clinical
+    validations:
+      required: true
+  - type: textarea
+    id: sanitization
+    attributes:
+      label: Sanitization and disclosure review
+      description: Describe removals/substitutions for private paths, internal evidence, healthcare data, infrastructure, security detail, and third-party/generated material.
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility and synchronization
+      description: How will versions, stale artifacts, canonical updates, and deprecation be handled?
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Publication constraints
+      options:
+        - label: No private RFC/source text or private issue/PR content is attached.
+          required: true
+        - label: No patient/production healthcare data is attached.
+          required: true
+        - label: This request does not itself transfer normative authority.
+          required: true
