@@ -68,6 +68,12 @@ Healthcare is the primary use case, but current public material must not claim:
 
 Allowed language describes design constraints, intended workflows, threat boundaries, and validation plans.
 
+## Contribution/publication boundary
+
+Contribution categories, sanitization review, proposal-to-canonical-decision flow, and the deliberate Stage 2/Stage 3 publication boundaries are defined in `docs/public-artifact-boundary.md` and `CONTRIBUTING.md`.
+
+Ordinary public contribution flow cannot publish a new normative protocol/SDK authority. Top-level protocol, RFC, SDK, schema, reference-client, and conformance surfaces are reserved by CI until a separate explicit boundary decision changes that policy.
+
 ## Public/private boundary
 
 The private `hackelia-micrantha/myosotis` repository is canonical for:
