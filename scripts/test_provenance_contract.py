@@ -127,10 +127,39 @@ def clinical_without_governance(root: Path) -> None:
     page.write_text(text, encoding="utf-8")
 
 
+
+def declared_surface_mismatch(root: Path) -> None:
+    path = root / "web" / "claims.json"
+    claims = json.loads(path.read_text(encoding="utf-8"))
+    for claim in claims["claims"]:
+        if claim["id"] == "MYO-WEB-INDEX-OVERVIEW":
+            claim["publicSurfaces"].append("whitepaper.html")
+            break
+    else:
+        raise AssertionError("overview claim missing")
+    path.write_text(json.dumps(claims, indent=2) + "\n", encoding="utf-8")
+
+
+def unsupported_regulatory_claim(root: Path) -> None:
+    path = root / "web" / "index.html"
+    text = path.read_text(encoding="utf-8")
+    marker = "Myosotis is a design study for AI systems that use mobile devices as"
+    replacement = "Myosotis complies with HIPAA and is a design study for AI systems that use mobile devices as"
+    if marker not in text:
+        raise AssertionError("fixture did not contain overview marker")
+    path.write_text(text.replace(marker, replacement, 1), encoding="utf-8")
+
+
 expect_failure("stale source revision", stale_source, "sourceRevision is stale")
 expect_failure("unknown RFC id", unknown_rfc, "unknown RFC ids")
 expect_failure("missing section claim binding", missing_binding, "without claim id/confidence")
 expect_failure("evidence inflation", inflate_evidence, "exceeds referenced evidence level")
 expect_failure("clinical evidence governance", clinical_without_governance, "clinicalEvidence")
+expect_failure("declared public surface mismatch", declared_surface_mismatch, "surface mismatch")
+expect_failure(
+    "unsupported healthcare compliance wording",
+    unsupported_regulatory_claim,
+    "clinical/production assertion",
+)
 
 print("provenance adversarial contract tests passed")
