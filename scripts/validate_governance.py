@@ -16,6 +16,7 @@ def fail(message: str) -> None:
 required_files = (
     "LICENSE",
     "LICENSING.md",
+    "LICENSES/MPL-2.0.txt",
     "CONTRIBUTING.md",
     "CODE_OF_CONDUCT.md",
     "docs/public-artifact-boundary.md",
@@ -39,9 +40,10 @@ for marker in (
     "First-party diagrams and media",
     "Examples and synthetic fixtures",
     "Public JSON schemas",
-    "future sanitized protocol schema",
-    "No Contributor License Agreement (CLA) is required",
-    "DCO-style sign-off",
+    "Future sanitized protocol schemas",
+    "Future SDK/reference implementation source",
+    "MPL-2.0",
+    "No Contributor License Agreement (CLA) or Developer Certificate of Origin (DCO) sign-off is currently required",
 ):
     if marker not in licensing:
         fail(f"LICENSING.md missing required boundary marker: {marker}")
@@ -52,8 +54,7 @@ for marker in (
     "What requires explicit publication review",
     "What must never be published here",
     "Public proposal to canonical decision",
-    "Signed-off-by:",
-    "No CLA is required",
+    "No CLA or DCO sign-off is currently required",
 ):
     if marker not in contributing:
         fail(f"CONTRIBUTING.md missing required boundary marker: {marker}")
@@ -74,11 +75,16 @@ reserved_top_level = {
     "rfcs",
     "protocol",
     "protocols",
+    "spec",
     "sdk",
     "schemas",
+    "fixtures",
     "conformance",
+    "reference",
     "reference-client",
     "reference-clients",
+    "src",
+    "crates",
 }
 present_reserved = sorted(
     name for name in reserved_top_level if (ROOT / name).exists()
@@ -90,6 +96,19 @@ if present_reserved:
         + ", ".join(present_reserved)
     )
 
+for path in ROOT.rglob("*"):
+    if not path.is_file() or ".git" in path.parts:
+        continue
+    if path.name.lower().startswith("rfc_") and path.suffix.lower() in {".md", ".txt", ".json", ".yaml", ".yml"}:
+        fail(
+            "RFC-like source file is not allowed in the Stage 1 public surface: "
+            + str(path.relative_to(ROOT))
+        )
+
+issue_config = (ROOT / ".github" / "ISSUE_TEMPLATE" / "config.yml").read_text(encoding="utf-8")
+if "blank_issues_enabled: false" not in issue_config:
+    fail("blank public issues must remain disabled so boundary/provenance fields cannot be bypassed")
+
 pr_template = (ROOT / ".github" / "PULL_REQUEST_TEMPLATE.md").read_text(encoding="utf-8")
 for marker in (
     "Authority and boundary",
@@ -97,7 +116,7 @@ for marker in (
     "Privacy, healthcare, and security",
     "Compatibility",
     "Rights and licensing",
-    "Signed-off-by:",
+    "right to submit",
 ):
     if marker not in pr_template:
         fail(f"pull-request template missing required field: {marker}")
