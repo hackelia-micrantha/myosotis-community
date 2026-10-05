@@ -604,7 +604,6 @@ main {
 }
 
 @media (max-width: 52rem) {
-  .site-header,
   .site-footer,
   .hero,
   .section-grid {
@@ -612,6 +611,7 @@ main {
   }
 
   .site-header {
+    flex-direction: column;
     align-items: flex-start;
   }
 
