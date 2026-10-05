@@ -85,6 +85,21 @@ a:hover {
   outline-offset: 2px;
 }
 
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: var(--phyllotaxis-gutter-page);
+  z-index: 10;
+  padding: var(--phyllotaxis-space-sm) var(--phyllotaxis-space-md);
+  border: 1px solid var(--phyllotaxis-color-border);
+  background: var(--phyllotaxis-color-canvas);
+  transform: translateY(-120%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 img {
   max-width: 100%;
 }
