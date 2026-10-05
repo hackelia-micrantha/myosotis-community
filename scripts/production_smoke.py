@@ -16,7 +16,7 @@ ROUTES = {
     "whitepaper.html": "Myosotis Design Summary",
     "threat-model.html": "Myosotis Threat Model",
     "assets/styles.css": "--phyllotaxis-color-canvas",
-    "provenance.json": "073e1607a7ba5514111355e7133a2f18e31016f1",
+    "provenance.json": "\"project\": \"Myosotis\"",
     "claims.json": "MYO-WEB-INDEX-STATE",
     "provenance.schema.json": "Myosotis public provenance manifest",
     "claims.schema.json": "Myosotis public claims ledger",
