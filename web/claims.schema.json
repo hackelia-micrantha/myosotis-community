@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://myosotis.micrantha.com/claims.schema.json",
+  "title": "Myosotis public claims ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "project",
+    "claims"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "project": {
+      "const": "Myosotis"
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "claim",
+          "type",
+          "confidence",
+          "sourceIds",
+          "publicSurfaces",
+          "limitations",
+          "reviewedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^MYO-WEB-[A-Z0-9-]+$"
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 10
+          },
+          "type": {
+            "enum": [
+              "design",
+              "constraint",
+              "risk-bounding",
+              "conformance",
+              "deployment",
+              "clinical"
+            ]
+          },
+          "confidence": {
+            "enum": [
+              "design",
+              "conformance",
+              "deployment",
+              "clinical"
+            ]
+          },
+          "sourceIds": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^RFC-[0-9]{3}$"
+            }
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9-]+$"
+            }
+          },
+          "publicSurfaces": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9._/-]+\\.html$"
+            }
+          },
+          "limitations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 5
+            }
+          },
+          "reviewedAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "clinicalEvidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "governanceStatus",
+              "recordId"
+            ],
+            "properties": {
+              "governanceStatus": {
+                "const": "governed"
+              },
+              "recordId": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "confidence": {
+                  "const": "clinical"
+                }
+              },
+              "required": [
+                "confidence"
+              ]
+            },
+            "then": {
+              "required": [
+                "clinicalEvidence"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}
