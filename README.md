@@ -51,6 +51,14 @@ See [`SECURITY.md`](SECURITY.md) or report privately to `security.myosotis@micra
 
 The deployed site publishes `/.well-known/security.txt` from [`web/.well-known/security.txt`](web/.well-known/security.txt).
 
+## Contributing and licensing
+
+Public contributions are welcome within the documented public/private boundary. See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/public-artifact-boundary.md`](docs/public-artifact-boundary.md), and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+
+First-party material in this public repository is licensed under Apache-2.0 unless explicitly marked otherwise; see [`LICENSING.md`](LICENSING.md). No CLA is required. External contributions use DCO-style commit sign-off.
+
+Publishing protocol schemas, conformance artifacts, SDK/reference code, or transferring normative specification authority requires a separate explicit boundary decision; ordinary public issues/PRs cannot create normative Myosotis requirements.
+
 ## Contact
 
 - General: `myosotis@micrantha.com`
