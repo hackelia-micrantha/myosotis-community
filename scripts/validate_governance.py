@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -105,7 +106,10 @@ if present_reserved:
 for path in ROOT.rglob("*"):
     if not path.is_file() or ".git" in path.parts:
         continue
-    if path.name.lower().startswith("rfc_") and path.suffix.lower() in {".md", ".txt", ".json", ".yaml", ".yml"}:
+    if (
+        re.match(r"^rfc[-_]\d", path.name.lower())
+        and path.suffix.lower() in {".md", ".txt", ".json", ".yaml", ".yml"}
+    ):
         fail(
             "RFC-like source file is not allowed in the Stage 1 public surface: "
             + str(path.relative_to(ROOT))
