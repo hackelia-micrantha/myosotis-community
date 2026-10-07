@@ -12,7 +12,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
-PAGES = ("index.html", "whitepaper.html", "threat-model.html")
+PAGES = ("index.html", "index-b.html", "whitepaper.html", "threat-model.html")
 CONFIDENCE_RANK = {
     "design": 0,
     "conformance": 1,
