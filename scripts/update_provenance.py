@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
-PAGES = ("index.html", "whitepaper.html", "threat-model.html")
+PAGES = ("index.html", "index-b.html", "whitepaper.html", "threat-model.html")
 
 parser = argparse.ArgumentParser(
     description=(
