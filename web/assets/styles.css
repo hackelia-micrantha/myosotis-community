@@ -814,10 +814,13 @@ main > section:nth-of-type(4n) {
   .site-nav a:hover,
   .button,
   .button:hover,
-  .button:active,
+  .button:active {
+    transition-duration: 0ms;
+    transform: none;
+  }
+
   .skip-link,
   .skip-link:focus {
     transition-duration: 0ms;
-    transform: none;
   }
 }
