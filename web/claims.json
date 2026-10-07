@@ -13,7 +13,8 @@
         "RFC-008"
       ],
       "publicSurfaces": [
-        "index.html"
+        "index.html",
+        "index-b.html"
       ],
       "limitations": [
         "Public summary only; requirements may change while source RFCs remain Draft."
@@ -30,7 +31,8 @@
         "RFC-006"
       ],
       "publicSurfaces": [
-        "index.html"
+        "index.html",
+        "index-b.html"
       ],
       "limitations": [
         "This is design context, not deployment or reliability evidence."
@@ -48,7 +50,8 @@
         "RFC-013"
       ],
       "publicSurfaces": [
-        "index.html"
+        "index.html",
+        "index-b.html"
       ],
       "limitations": [
         "This describes intended authority boundaries, not a universal production guarantee."
@@ -69,7 +72,8 @@
         "RFC-014"
       ],
       "publicSurfaces": [
-        "index.html"
+        "index.html",
+        "index-b.html"
       ],
       "limitations": [
         "Risk is bounded by design constraints; it is not claimed to be eliminated."
@@ -86,7 +90,8 @@
         "RFC-009"
       ],
       "publicSurfaces": [
-        "index.html"
+        "index.html",
+        "index-b.html"
       ],
       "limitations": [
         "Examples are non-clinical and do not represent production patient-data handling."
@@ -108,7 +113,8 @@
         "CORE-CONFORMANCE-2026-09-12"
       ],
       "publicSurfaces": [
-        "index.html"
+        "index.html",
+        "index-b.html"
       ],
       "limitations": [
         "Evidence is limited to the reviewed conformance/runtime slice; no production, performance, regulatory, or clinical claim follows."
@@ -124,7 +130,8 @@
         "RFC-008"
       ],
       "publicSurfaces": [
-        "index.html"
+        "index.html",
+        "index-b.html"
       ],
       "limitations": [
         "Canonical requirements remain governed outside the public publication surface."
