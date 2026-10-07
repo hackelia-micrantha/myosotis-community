@@ -13,6 +13,7 @@ from selenium.webdriver.common.keys import Keys
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:4173/"
 ROUTES = {
     "index.html": "Field-Operated AI, Bounded at the Device",
+    "index-b.html": "Field-Operated AI, Bounded at the Device",
     "whitepaper.html": "Myosotis Design Summary",
     "threat-model.html": "Myosotis Threat Model",
 }
@@ -43,6 +44,12 @@ def check_route(browser, route: str, expected_heading: str) -> None:
     heading = browser.find_element("css selector", "h1")
     assert expected_heading in heading.text.replace("\n", " "), (route, heading.text)
     assert browser.find_element("css selector", "main#main-content").is_displayed()
+
+    variant = browser.execute_script(
+        "return document.documentElement.getAttribute('data-ui-variant')"
+    )
+    expected_variant = "pastel" if route == "index-b.html" else None
+    assert variant == expected_variant, (route, variant)
 
     contained = browser.execute_script(
         "return document.documentElement.scrollWidth <= document.documentElement.clientWidth"
