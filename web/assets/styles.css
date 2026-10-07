@@ -41,6 +41,18 @@
   --myosotis-note-background: #fff8d6;
   --myosotis-note-border: #8b6d00;
   --myosotis-note-text: #5a4200;
+
+  /* Consumer-owned Utility surface rhythm. */
+  --myosotis-surface-blue: #f2f7ff;
+  --myosotis-surface-green: #f2f8f3;
+  --myosotis-surface-amber: #fff8e8;
+  --myosotis-surface-lilac: #f7f3fb;
+  --myosotis-surface-panel: #fbfcfe;
+  --myosotis-interactive-hover: #edf3ff;
+
+  /* Consumer-owned values within the accepted interaction-motion envelope. */
+  --myosotis-motion-duration: 120ms;
+  --myosotis-motion-easing: ease-out;
 }
 
 * {
@@ -80,6 +92,17 @@ a:hover {
   text-decoration-thickness: 2px;
 }
 
+.brand,
+.site-nav a,
+.button,
+.skip-link {
+  transition:
+    color var(--myosotis-motion-duration) var(--myosotis-motion-easing),
+    background-color var(--myosotis-motion-duration) var(--myosotis-motion-easing),
+    border-color var(--myosotis-motion-duration) var(--myosotis-motion-easing),
+    transform var(--myosotis-motion-duration) var(--myosotis-motion-easing);
+}
+
 :focus-visible {
   outline: 3px solid var(--phyllotaxis-color-focus);
   outline-offset: 2px;
@@ -97,6 +120,8 @@ a:hover {
 }
 
 .skip-link:focus {
+  background: var(--myosotis-surface-amber);
+  border-color: var(--phyllotaxis-color-focus);
   transform: translateY(0);
 }
 
@@ -210,9 +235,19 @@ main,
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 0.4rem 0.85rem;
+  gap: 0.4rem 0.45rem;
   font-size: var(--phyllotaxis-type-meta-size);
   line-height: var(--phyllotaxis-type-meta-line-height);
+}
+
+.site-nav a {
+  padding: 0.15rem 0.35rem;
+  border: 1px solid transparent;
+}
+
+.site-nav a:hover {
+  border-color: var(--phyllotaxis-color-border);
+  background: var(--myosotis-interactive-hover);
 }
 
 main {
@@ -276,6 +311,39 @@ main {
   background: var(--phyllotaxis-color-canvas);
   box-shadow: none;
   backdrop-filter: none;
+}
+
+.hero-panel,
+.rules-board {
+  background: var(--myosotis-surface-panel);
+}
+
+/*
+ * Utility section rhythm: flat, low-chroma surfaces with shared separators.
+ * This is intentionally not card chrome: no radius, shadow, blur, or gradient.
+ */
+main > section:nth-of-type(4n + 1) {
+  background: var(--myosotis-surface-blue);
+}
+
+main > section:nth-of-type(4n + 2) {
+  background: var(--myosotis-surface-green);
+}
+
+main > section:nth-of-type(4n + 3) {
+  background: var(--myosotis-surface-amber);
+}
+
+main > section:nth-of-type(4n) {
+  background: var(--myosotis-surface-lilac);
+}
+
+.hero,
+.section-grid,
+.paper-hero,
+.paper-section {
+  margin-inline: calc(0rem - var(--phyllotaxis-gutter-page));
+  padding-inline: var(--phyllotaxis-gutter-page);
 }
 
 .hero-panel {
@@ -383,7 +451,14 @@ main {
 }
 
 .button:hover {
-  background: #e2e2e2;
+  border-color: var(--phyllotaxis-color-text-muted);
+  background: var(--myosotis-interactive-hover);
+}
+
+.button:active {
+  outline: 1px solid currentColor;
+  outline-offset: -1px;
+  transform: translateY(0);
 }
 
 .button-primary {
@@ -618,6 +693,13 @@ main {
   color: var(--phyllotaxis-color-text-muted);
 }
 
+@media (hover: hover) {
+  .button:hover,
+  .brand:hover {
+    transform: translateY(-1px);
+  }
+}
+
 @media (max-width: 52rem) {
   .site-footer,
   .hero,
@@ -724,5 +806,21 @@ main {
   *::before,
   *::after {
     scroll-behavior: auto !important;
+  }
+
+  .brand,
+  .brand:hover,
+  .site-nav a,
+  .site-nav a:hover,
+  .button,
+  .button:hover,
+  .button:active {
+    transition-duration: 0ms;
+    transform: none;
+  }
+
+  .skip-link,
+  .skip-link:focus {
+    transition-duration: 0ms;
   }
 }
