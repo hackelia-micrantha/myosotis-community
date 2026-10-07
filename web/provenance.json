@@ -79,6 +79,20 @@
       ]
     },
     {
+      "path": "index-b.html",
+      "sourceRevision": "073e1607a7ba5514111355e7133a2f18e31016f1",
+      "reviewedAt": "2026-10-05",
+      "claimIds": [
+        "MYO-WEB-INDEX-OVERVIEW",
+        "MYO-WEB-INDEX-PROBLEM",
+        "MYO-WEB-INDEX-ARCHITECTURE",
+        "MYO-WEB-INDEX-SAFETY",
+        "MYO-WEB-INDEX-FIELD",
+        "MYO-WEB-INDEX-STATE",
+        "MYO-WEB-INDEX-REFERENCE"
+      ]
+    },
+    {
       "path": "whitepaper.html",
       "sourceRevision": "073e1607a7ba5514111355e7133a2f18e31016f1",
       "reviewedAt": "2026-10-05",
