@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 ROUTES = {
     "": "Field-Operated AI,",
+    "index-b.html": "Field-Operated AI,",
     "whitepaper.html": "Myosotis Design Summary",
     "threat-model.html": "Myosotis Threat Model",
     "assets/styles.css": "--phyllotaxis-color-canvas",
@@ -69,7 +70,7 @@ def validate(base: str) -> None:
         raise AssertionError("deployed claims.json does not match checked-out main")
 
     revision = local_provenance["sourceRevision"]
-    for route in ("", "whitepaper.html", "threat-model.html"):
+    for route in ("", "index-b.html", "whitepaper.html", "threat-model.html"):
         body = fetch(urljoin(base, route))[3]
         if revision not in body:
             raise AssertionError(
