@@ -13,7 +13,7 @@ import tinycss2
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
-PAGES = [WEB / "index.html", WEB / "whitepaper.html", WEB / "threat-model.html"]
+PAGES = [WEB / "index.html", WEB / "index-b.html", WEB / "whitepaper.html", WEB / "threat-model.html"]
 TEXT_SUFFIXES = {".css", ".html", ".json", ".jsonc", ".md", ".py", ".txt", ".yaml", ".yml"}
 
 errors: list[str] = []
@@ -81,6 +81,13 @@ for page in PAGES:
         fail(f"{page.relative_to(ROOT)} must declare the Phyllotaxis utility profile")
     if root.attrib.get("data-phyllotaxis-scheme") != "light":
         fail(f"{page.relative_to(ROOT)} must declare the current light scheme")
+
+    expected_variant = "pastel" if page.name == "index-b.html" else None
+    if root.attrib.get("data-ui-variant") != expected_variant:
+        fail(
+            f"{page.relative_to(ROOT)} data-ui-variant must be "
+            f"{expected_variant!r}, got {root.attrib.get('data-ui-variant')!r}"
+        )
 
     mains = root.findall(".//main")
     h1s = root.findall(".//h1")
