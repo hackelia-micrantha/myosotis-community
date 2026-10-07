@@ -342,8 +342,8 @@ main > section:nth-of-type(4n) {
 .section-grid,
 .paper-hero,
 .paper-section {
-  margin-inline: -1rem;
-  padding-inline: 1rem;
+  margin-inline: calc(0rem - var(--phyllotaxis-gutter-page));
+  padding-inline: var(--phyllotaxis-gutter-page);
 }
 
 .hero-panel {
