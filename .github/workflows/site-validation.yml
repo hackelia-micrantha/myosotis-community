@@ -94,14 +94,22 @@ jobs:
             fi
             sleep 0.25
           done
-          MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-b-screenshots nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
+          MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-ab-screenshots/B nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
 
-      - name: Upload B visual evidence
+      - name: Capture A control screenshots
+        if: github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b'
+        continue-on-error: true
+        run: >-
+          MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-ab-screenshots/A
+          nix develop -L --no-write-lock-file --command
+          python3 scripts/browser_smoke.py https://myosotis.micrantha.com/
+
+      - name: Upload A/B visual evidence
         if: always() && (github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b')
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: phyllotaxis-b-screenshots
-          path: /tmp/myosotis-b-screenshots/*.png
+          name: myosotis-ab-screenshots
+          path: /tmp/myosotis-ab-screenshots/**/*.png
           if-no-files-found: error
           retention-days: 14
 
