@@ -724,3 +724,37 @@ main {
     flex-direction: column;
   }
 }
+
+
+/* Skip-link behavior retained from the later accessibility work. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 1.25rem;
+  z-index: 100;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0 0 0.75rem 0.75rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  transform: translateY(-120%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
