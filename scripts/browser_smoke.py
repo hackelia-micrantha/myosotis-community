@@ -58,7 +58,13 @@ def check_route(browser, route: str, expected_heading: str, expected_width: int)
     viewport = browser.execute_script("return window.innerWidth")
     assert viewport == expected_width, f"{route} requested {expected_width}px, got {viewport}px"
     heading = browser.find_element("css selector", "h1")
-    assert expected_heading in heading.text.replace("\n", " "), (route, heading.text)
+    assert expected_heading in heading.text.replace("\n", " "), (
+        route,
+        browser.current_url,
+        browser.title,
+        heading.text,
+        browser.find_element("tag name", "body").text[:400],
+    )
     assert browser.find_element("css selector", "main#main-content").is_displayed()
 
     contained = browser.execute_script(
