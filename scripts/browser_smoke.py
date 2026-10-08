@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import os
 import shutil
 import sys
+from pathlib import Path
 from urllib.parse import urljoin
 
 from selenium import webdriver
@@ -11,6 +13,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:4173/"
+SCREENSHOTS_DIR = os.environ.get("MYOSOTIS_SCREENSHOTS_DIR")
 ROUTES = {
     "index.html": "Field-Operated AI, Bounded at the Device",
     "whitepaper.html": "Myosotis Design Summary",
@@ -74,7 +77,14 @@ def check_route(browser, route: str, expected_heading: str) -> None:
         for item in browser.get_log("browser")
         if item.get("level") == "SEVERE"
     ]
-    assert not severe, f"{route} browser errors: {severe}"
+    assert not severe, f"\{route\} browser errors: \{severe\}"
+
+    if SCREENSHOTS_DIR:
+        target = Path(SCREENSHOTS_DIR)
+        target.mkdir(parents=True, exist_ok=True)
+        name = route.removesuffix(".html")
+        viewport = browser.execute_script("return window.innerWidth")
+        assert browser.save_screenshot(str(target / f"{name}-{viewport}px.png"))
 
 
 for width, height in ((1280, 900), (320, 800)):
