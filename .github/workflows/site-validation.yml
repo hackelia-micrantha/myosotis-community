@@ -46,6 +46,9 @@ jobs:
       - name: Validate site contracts
         run: nix develop -L --no-write-lock-file --command python3 scripts/validate_site.py
 
+      - name: Compile deployment smoke verifier
+        run: nix develop -L --no-write-lock-file --command python3 -m py_compile scripts/production_smoke.py
+
       - name: Validate provenance and public claims
         run: nix develop -L --no-write-lock-file --command python3 scripts/validate_provenance.py
 
