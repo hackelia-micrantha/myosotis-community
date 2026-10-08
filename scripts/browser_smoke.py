@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import os
 import shutil
 import sys
+from pathlib import Path
 from urllib.parse import urljoin
 
 from selenium import webdriver
@@ -11,6 +13,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:4173/"
+SCREENSHOTS_DIR = os.environ.get("MYOSOTIS_SCREENSHOTS_DIR")
 ROUTES = {
     "index.html": "Field-Operated AI, Bounded at the Device",
     "whitepaper.html": "Myosotis Design Summary",
@@ -32,16 +35,36 @@ def driver(width: int, height: int):
     options.add_argument("--force-prefers-reduced-motion=reduce")
     options.add_argument(f"--window-size={width},{height}")
     options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
-    return webdriver.Chrome(
+    browser = webdriver.Chrome(
         service=Service(executable_path=chromedriver),
         options=options,
     )
+    # Chrome's minimum native window width may exceed a 320px CSS viewport.
+    # Explicit CDP metrics exercise the intended responsive breakpoint.
+    browser.execute_cdp_cmd(
+        "Emulation.setDeviceMetricsOverride",
+        {
+            "width": width,
+            "height": height,
+            "deviceScaleFactor": 1,
+            "mobile": width <= 600,
+        },
+    )
+    return browser
 
 
-def check_route(browser, route: str, expected_heading: str) -> None:
+def check_route(browser, route: str, expected_heading: str, expected_width: int) -> None:
     browser.get(urljoin(BASE, route))
+    viewport = browser.execute_script("return window.innerWidth")
+    assert viewport == expected_width, f"{route} requested {expected_width}px, got {viewport}px"
     heading = browser.find_element("css selector", "h1")
-    assert expected_heading in heading.text.replace("\n", " "), (route, heading.text)
+    assert expected_heading in heading.text.replace("\n", " "), (
+        route,
+        browser.current_url,
+        browser.title,
+        heading.text,
+        browser.find_element("tag name", "body").text[:400],
+    )
     assert browser.find_element("css selector", "main#main-content").is_displayed()
 
     contained = browser.execute_script(
@@ -53,6 +76,13 @@ def check_route(browser, route: str, expected_heading: str) -> None:
         "return window.matchMedia('(prefers-reduced-motion: reduce)').matches"
     )
     assert reduced, f"{route} did not observe reduced-motion browser preference"
+
+    if SCREENSHOTS_DIR:
+        target = Path(SCREENSHOTS_DIR)
+        target.mkdir(parents=True, exist_ok=True)
+        name = route.removesuffix(".html")
+        viewport = browser.execute_script("return window.innerWidth")
+        assert browser.save_screenshot(str(target / f"{name}-{viewport}px.png"))
 
     browser.find_element("tag name", "body").send_keys(Keys.TAB)
     active = browser.switch_to.active_element
@@ -80,6 +110,6 @@ def check_route(browser, route: str, expected_heading: str) -> None:
 for width, height in ((1280, 900), (320, 800)):
     with driver(width, height) as browser:
         for route, heading in ROUTES.items():
-            check_route(browser, route, heading)
+            check_route(browser, route, heading, width)
 
 print("browser smoke passed")

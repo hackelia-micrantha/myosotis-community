@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - ab/phyllotaxis-b
   workflow_dispatch:
 
 permissions:
@@ -93,14 +94,43 @@ jobs:
             fi
             sleep 0.25
           done
-          nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
+          MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-ab-screenshots/B nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
+
+      - name: Diagnose public A delivery
+        if: github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b'
+        continue-on-error: true
+        run: |
+          for url in https://myosotis.micrantha.com/index.html https://myosotis-community.ryan78j.workers.dev/index.html; do
+            printf '\nChecking %s\n' "$url"
+            curl --location --silent --show-error --max-time 15 --dump-header /tmp/myosotis-headers --output /tmp/myosotis-response --write-out 'HTTP=%{http_code} final=%{url_effective}\n' "$url" || true
+            head -n 12 /tmp/myosotis-headers 2>/dev/null || true
+            head -c 220 /tmp/myosotis-response 2>/dev/null || true
+            printf '\n'
+          done
+
+      - name: Capture deployed A Worker screenshots
+        if: github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b'
+        continue-on-error: true
+        run: >-
+          MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-ab-screenshots/A
+          nix develop -L --no-write-lock-file --command
+          python3 scripts/browser_smoke.py https://myosotis-community.ryan78j.workers.dev/
+
+      - name: Upload A/B visual evidence
+        if: always() && (github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b')
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: myosotis-ab-screenshots
+          path: /tmp/myosotis-ab-screenshots/**/*.png
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Scan repository for secrets
         run: nix develop -L --no-write-lock-file --command gitleaks git --redact --no-banner .
 
   production-smoke:
     name: Production smoke
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: validate
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -123,4 +153,33 @@ jobs:
           nix develop -L --no-write-lock-file --command
           python3 scripts/production_smoke.py
           --base-url https://myosotis.micrantha.com/
+          --attempts 18 --delay 10
+
+  preview-smoke:
+    name: Phyllotaxis B deployed preview smoke
+    if: (github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request')
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact B revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+        with:
+          determinate: false
+          diagnostic-endpoint: ""
+          github-token: ""
+          kvm: false
+
+      - name: Verify deployed B alias matches exact branch assets
+        run: >-
+          nix develop -L --no-write-lock-file --command
+          python3 scripts/production_smoke.py
+          --base-url https://ab-phyllotaxis-b-myosotis-community.ryan78j.workers.dev/
+          --verify-static-assets
           --attempts 18 --delay 10

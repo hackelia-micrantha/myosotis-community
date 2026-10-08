@@ -68,6 +68,13 @@ def validate(base: str) -> None:
     if remote_claims != local_claims:
         raise AssertionError("deployed claims.json does not match checked-out main")
 
+    if args.verify_static_assets:
+        for asset in ("index.html", "whitepaper.html", "threat-model.html", "assets/styles.css"):
+            expected = (ROOT / "web" / asset).read_text(encoding="utf-8")
+            actual = fetch(urljoin(base, asset))[3]
+            if actual != expected:
+                raise AssertionError(f"{asset} deployed asset differs from exact branch source")
+
     revision = local_provenance["sourceRevision"]
     for route in ("", "whitepaper.html", "threat-model.html"):
         body = fetch(urljoin(base, route))[3]
@@ -79,6 +86,7 @@ def validate(base: str) -> None:
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--base-url", default="https://myosotis.micrantha.com/")
+parser.add_argument("--verify-static-assets", action="store_true")
 parser.add_argument("--attempts", type=int, default=12)
 parser.add_argument("--delay", type=float, default=10)
 args = parser.parse_args()
