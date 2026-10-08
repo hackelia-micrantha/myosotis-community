@@ -15,7 +15,7 @@ ROUTES = {
     "": "Field-Operated AI,",
     "whitepaper.html": "Myosotis Design Summary",
     "threat-model.html": "Myosotis Threat Model",
-    "assets/styles.css": "--phyllotaxis-color-canvas",
+    "assets/styles.css": "--bg: #0d1110",
     "provenance.json": "\"project\": \"Myosotis\"",
     "claims.json": "MYO-WEB-INDEX-STATE",
     "provenance.schema.json": "Myosotis public provenance manifest",
