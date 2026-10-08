@@ -57,6 +57,13 @@ def check_route(browser, route: str, expected_heading: str) -> None:
     )
     assert reduced, f"{route} did not observe reduced-motion browser preference"
 
+    if SCREENSHOTS_DIR:
+        target = Path(SCREENSHOTS_DIR)
+        target.mkdir(parents=True, exist_ok=True)
+        name = route.removesuffix(".html")
+        viewport = browser.execute_script("return window.innerWidth")
+        assert browser.save_screenshot(str(target / f"{name}-{viewport}px.png"))
+
     browser.find_element("tag name", "body").send_keys(Keys.TAB)
     active = browser.switch_to.active_element
     assert "skip-link" in (active.get_attribute("class") or "").split(), (
@@ -77,14 +84,7 @@ def check_route(browser, route: str, expected_heading: str) -> None:
         for item in browser.get_log("browser")
         if item.get("level") == "SEVERE"
     ]
-    assert not severe, f"\{route\} browser errors: \{severe\}"
-
-    if SCREENSHOTS_DIR:
-        target = Path(SCREENSHOTS_DIR)
-        target.mkdir(parents=True, exist_ok=True)
-        name = route.removesuffix(".html")
-        viewport = browser.execute_script("return window.innerWidth")
-        assert browser.save_screenshot(str(target / f"{name}-{viewport}px.png"))
+    assert not severe, f"{route} browser errors: {severe}"
 
 
 for width, height in ((1280, 900), (320, 800)):
