@@ -96,6 +96,18 @@ jobs:
           done
           MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-ab-screenshots/B nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
 
+      - name: Diagnose public A delivery
+        if: github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b'
+        continue-on-error: true
+        run: |
+          for url in https://myosotis.micrantha.com/index.html https://myosotis-community.ryan78j.workers.dev/index.html; do
+            printf '\nChecking %s\n' "$url"
+            curl --location --silent --show-error --max-time 15 --dump-header /tmp/myosotis-headers --output /tmp/myosotis-response --write-out 'HTTP=%{http_code} final=%{url_effective}\n' "$url" || true
+            head -n 12 /tmp/myosotis-headers 2>/dev/null || true
+            head -c 220 /tmp/myosotis-response 2>/dev/null || true
+            printf '\n'
+          done
+
       - name: Capture A control screenshots
         if: github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b'
         continue-on-error: true
