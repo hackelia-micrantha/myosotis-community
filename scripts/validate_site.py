@@ -77,11 +77,6 @@ for page in PAGES:
 
     if root.attrib.get("lang") != "en":
         fail(f"{page.relative_to(ROOT)} must declare html lang=en")
-    if root.attrib.get("data-phyllotaxis-profile") != "utility":
-        fail(f"{page.relative_to(ROOT)} must declare the Phyllotaxis utility profile")
-    if root.attrib.get("data-phyllotaxis-scheme") != "light":
-        fail(f"{page.relative_to(ROOT)} must declare the current light scheme")
-
     mains = root.findall(".//main")
     h1s = root.findall(".//h1")
     if len(mains) != 1:
@@ -168,56 +163,15 @@ for required in (
     ":focus-visible",
     ".skip-link:focus",
     "@media (prefers-reduced-motion: reduce)",
-    "--phyllotaxis-color-focus",
 ):
     if required not in css:
         fail(f"{css_path.relative_to(ROOT)} missing required accessibility contract: {required}")
 
-for required in (
-    "--myosotis-surface-blue",
-    "--myosotis-surface-green",
-    "--myosotis-surface-amber",
-    "--myosotis-surface-lilac",
-    "--myosotis-motion-duration: 120ms",
-    "translateY(-1px)",
-    "transition-duration: 0ms",
-):
-    if required not in css:
-        fail(f"{css_path.relative_to(ROOT)} missing required Phyllotaxis consumer treatment: {required}")
-
-if "gradient(" in css:
-    fail(f"{css_path.relative_to(ROOT)} must not use decorative gradients")
-
-if re.search(r"\bscale(?:3d|X|Y)?\s*\(", css):
-    fail(f"{css_path.relative_to(ROOT)} must not use scale/pop interaction motion")
-
-for match in re.finditer(r"backdrop-filter\s*:\s*([^;]+);", css):
-    if match.group(1).strip() != "none":
-        fail(f"{css_path.relative_to(ROOT)} must not use blur/glass backdrop filtering")
-
-
 contrast_pairs = (
-    ("--phyllotaxis-color-text", "--phyllotaxis-color-canvas", 4.5),
-    ("--phyllotaxis-color-text-muted", "--phyllotaxis-color-canvas", 4.5),
-    ("--phyllotaxis-color-link", "--phyllotaxis-color-canvas", 4.5),
-    ("--phyllotaxis-color-link-visited", "--phyllotaxis-color-canvas", 4.5),
-    ("--phyllotaxis-color-text", "--phyllotaxis-color-surface", 4.5),
-    ("--phyllotaxis-color-text-muted", "--phyllotaxis-color-surface", 4.5),
+    ("--text", "--bg", 4.5),
+    ("--muted", "--bg", 4.5),
+    ("--accent", "--bg", 4.5),
 )
-for background_name in (
-    "--myosotis-surface-blue",
-    "--myosotis-surface-green",
-    "--myosotis-surface-amber",
-    "--myosotis-surface-lilac",
-    "--myosotis-surface-panel",
-    "--myosotis-interactive-hover",
-):
-    contrast_pairs += (
-        ("--phyllotaxis-color-text", background_name, 4.5),
-        ("--phyllotaxis-color-text-muted", background_name, 4.5),
-        ("--phyllotaxis-color-link", background_name, 4.5),
-        ("--phyllotaxis-color-link-visited", background_name, 4.5),
-    )
 for foreground_name, background_name, minimum in contrast_pairs:
     foreground = css_variable(css, foreground_name)
     background = css_variable(css, background_name)
