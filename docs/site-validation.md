@@ -43,8 +43,8 @@ CI also runs Gitleaks against repository history and validates:
 - no private canonical repository URL in deployed web content;
 - unexpired `security.txt`;
 - local asset/fragment integrity;
-- the expected Phyllotaxis Utility profile;
-- WCAG AA text/link contrast for the published Utility token pairs;
+- the declared control-site presentation and local-only asset boundary;
+- WCAG AA contrast for the control palette's primary text, muted text, and accent tokens;
 - parseable HTML/CSS and root Wrangler asset configuration;
 - read-only workflow permission and immutable third-party action pins;
 - static security-header policy;
@@ -67,3 +67,10 @@ After a push to `main`, CI polls the canonical URL from `security.txt` and verif
 - CSP, referrer policy, nosniff, permissions policy, and HSTS are served.
 
 This verifies deployed behavior after merge. Public claim/source binding is defined by `web/provenance.json` and `web/claims.json`; see `docs/provenance.md`. Cloudflare deployment identity remains external to GitHub CI.
+
+
+## Presentation A/B branches
+
+The production control on `main` intentionally uses the pre-Phyllotaxis presentation while retaining later accessibility, provenance, and security controls.
+
+The Phyllotaxis B treatment is preserved on `ab/phyllotaxis-b`. Preview/deployment systems may use that branch for visual comparison without adding runtime experiment logic to the public site.
