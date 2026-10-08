@@ -118,9 +118,11 @@ jobs:
           github-token: ""
           kvm: false
 
-      - name: Verify canonical production site
+      - name: Verify deployed production Worker and probe public hostname
         run: >-
           nix develop -L --no-write-lock-file --command
           python3 scripts/production_smoke.py
-          --base-url https://myosotis.micrantha.com/
+          --base-url https://myosotis-community.ryan78j.workers.dev/
+          --public-url https://myosotis.micrantha.com/
+          --verify-static-assets
           --attempts 18 --delay 10
