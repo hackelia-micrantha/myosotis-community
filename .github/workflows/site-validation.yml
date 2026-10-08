@@ -108,13 +108,13 @@ jobs:
             printf '\n'
           done
 
-      - name: Capture A control screenshots
+      - name: Capture deployed A Worker screenshots
         if: github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b'
         continue-on-error: true
         run: >-
           MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-ab-screenshots/A
           nix develop -L --no-write-lock-file --command
-          python3 scripts/browser_smoke.py https://myosotis.micrantha.com/
+          python3 scripts/browser_smoke.py https://myosotis-community.ryan78j.workers.dev/
 
       - name: Upload A/B visual evidence
         if: always() && (github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b')
@@ -157,7 +157,7 @@ jobs:
 
   preview-smoke:
     name: Phyllotaxis B deployed preview smoke
-    if: github.ref == 'refs/heads/ab/phyllotaxis-b' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    if: (github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request')
     needs: validate
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -166,7 +166,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
