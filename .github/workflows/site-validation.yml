@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - ab/phyllotaxis-b
   workflow_dispatch:
 
 permissions:
@@ -93,14 +94,23 @@ jobs:
             fi
             sleep 0.25
           done
-          nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
+          MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-b-screenshots nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
+
+      - name: Upload B visual evidence
+        if: always() && github.ref == 'refs/heads/ab/phyllotaxis-b'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: phyllotaxis-b-screenshots
+          path: /tmp/myosotis-b-screenshots/*.png
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Scan repository for secrets
         run: nix develop -L --no-write-lock-file --command gitleaks git --redact --no-banner .
 
   production-smoke:
     name: Production smoke
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: validate
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -123,4 +133,33 @@ jobs:
           nix develop -L --no-write-lock-file --command
           python3 scripts/production_smoke.py
           --base-url https://myosotis.micrantha.com/
+          --attempts 18 --delay 10
+
+  preview-smoke:
+    name: Phyllotaxis B deployed preview smoke
+    if: github.ref == 'refs/heads/ab/phyllotaxis-b' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact B revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+        with:
+          determinate: false
+          diagnostic-endpoint: ""
+          github-token: ""
+          kvm: false
+
+      - name: Verify deployed B alias matches exact branch assets
+        run: >-
+          nix develop -L --no-write-lock-file --command
+          python3 scripts/production_smoke.py
+          --base-url https://ab-phyllotaxis-b-myosotis-community.ryan78j.workers.dev/
+          --verify-static-assets
           --attempts 18 --delay 10
