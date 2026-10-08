@@ -60,13 +60,13 @@ The deployed header policy is intentionally strict because the site has no scrip
 
 ## Production smoke
 
-After a push to `main`, CI polls the canonical URL from `security.txt` and verifies:
+After a push to `main`, CI separately validates deployment health and public-host routing:
 
-- the home, design summary, threat model, stylesheet, provenance/claims JSON + schemas, and security.txt are reachable over HTTPS;
-- the expected page markers are present;
-- CSP, referrer policy, nosniff, permissions policy, and HSTS are served.
+- **Production Worker source:** `https://myosotis-community.ryan78j.workers.dev/` must return the home, design summary, threat model, stylesheet, provenance/claims JSON + schemas, and security.txt over HTTPS. Deployed HTML/CSS must match the checked-out exact `main` source. Expected page markers, CSP, referrer policy, nosniff, permissions policy, and HSTS are checked.
+- **Custom hostname probe:** `https://myosotis.micrantha.com/` may return validated site content (`CONTENT_OK`) or a Cloudflare-managed HTTP 403 with `CF-Mitigated: challenge` (`WAF_CHALLENGED`). The latter is recorded explicitly as **not verified for normal visitors**, but does not invalidate the independently verified Worker deployment. Any other HTTP errors or unexpected content fail the job.
+- Cloudflare's zone-wide Bot Fight Mode can challenge headless GitHub Actions traffic and cannot be bypassed using a WAF Skip rule. Do not disable protection globally or assert browser accessibility solely because the Worker-native check passes. Human/private-browser review is tracked separately in #18.
 
-This verifies deployed behavior after merge. Public claim/source binding is defined by `web/provenance.json` and `web/claims.json`; see `docs/provenance.md`. Cloudflare deployment identity remains external to GitHub CI.
+This separates deployment validity from zone security handling without adding deployment credentials. Public claim/source binding is defined by `web/provenance.json` and `web/claims.json`; see `docs/provenance.md`. Cloudflare deployment identity remains external to GitHub CI.
 
 
 ## Presentation A/B branches

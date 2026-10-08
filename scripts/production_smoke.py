@@ -68,6 +68,13 @@ def validate(base: str) -> None:
     if remote_claims != local_claims:
         raise AssertionError("deployed claims.json does not match checked-out main")
 
+    if args.verify_static_assets:
+        for asset in ("index.html", "whitepaper.html", "threat-model.html", "assets/styles.css"):
+            expected = (ROOT / "web" / asset).read_text(encoding="utf-8")
+            actual = fetch(urljoin(base, asset))[3]
+            if actual != expected:
+                raise AssertionError(f"{asset} deployed content differs from checked-out main")
+
     revision = local_provenance["sourceRevision"]
     for route in ("", "whitepaper.html", "threat-model.html"):
         body = fetch(urljoin(base, route))[3]
@@ -77,8 +84,30 @@ def validate(base: str) -> None:
             )
 
 
+def probe_public_hostname(base: str) -> str:
+    """Distinguish public content from a zone WAF challenge; do not bypass WAF."""
+    url = urljoin(base, "index.html")
+    try:
+        final_url, status, headers, body = fetch(url)
+    except urllib.error.HTTPError as error:
+        mitigated = error.headers.get("CF-Mitigated", "").strip().lower()
+        if error.code == 403 and mitigated == "challenge":
+            return "WAF_CHALLENGED"
+        raise AssertionError(
+            f"custom hostname returned unexpected HTTP {error.code}; "
+            f"cf-mitigated={mitigated!r}"
+        ) from error
+    if not final_url.startswith("https://"):
+        raise AssertionError(f"custom hostname did not resolve over HTTPS: {final_url}")
+    if status != 200 or "Field-Operated AI," not in body:
+        raise AssertionError(f"custom hostname returned unexpected content/status {status}")
+    return "CONTENT_OK"
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--base-url", default="https://myosotis.micrantha.com/")
+parser.add_argument("--public-url")
+parser.add_argument("--verify-static-assets", action="store_true")
 parser.add_argument("--attempts", type=int, default=12)
 parser.add_argument("--delay", type=float, default=10)
 args = parser.parse_args()
@@ -87,7 +116,12 @@ last_error = None
 for attempt in range(1, args.attempts + 1):
     try:
         validate(args.base_url)
-        print(f"production smoke passed on attempt {attempt}")
+        if args.public_url:
+            public_result = probe_public_hostname(args.public_url)
+            print(f"custom public hostname: {public_result}")
+            if public_result == "WAF_CHALLENGED":
+                print("Note: deployed Worker passed; the public hostname remains unverified for human browsers")
+        print(f"production Worker smoke passed on attempt {attempt}")
         raise SystemExit(0)
     except (AssertionError, urllib.error.URLError, TimeoutError) as exc:
         last_error = exc
