@@ -97,7 +97,7 @@ jobs:
           MYOSOTIS_SCREENSHOTS_DIR=/tmp/myosotis-b-screenshots nix develop -L --no-write-lock-file --command python3 scripts/browser_smoke.py http://127.0.0.1:4173/
 
       - name: Upload B visual evidence
-        if: always() && github.ref == 'refs/heads/ab/phyllotaxis-b'
+        if: always() && (github.ref == 'refs/heads/ab/phyllotaxis-b' || github.head_ref == 'ab/phyllotaxis-b')
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: phyllotaxis-b-screenshots
